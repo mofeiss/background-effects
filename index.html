@@ -162,6 +162,20 @@
                     进入演示 →
                 </a>
             </article>
+
+            <!-- GSAP 卡片 -->
+            <article class="card">
+                <div class="card-preview" aria-label="GSAP 效果预览">
+                    <canvas id="gsap-preview"></canvas>
+                </div>
+                <h3 class="card-title">GSAP</h3>
+                <p class="card-description">
+                    专业级动画库，功能强大且性能卓越。支持文字动画、位移变换、SVG动画、滚动触发等高级效果。
+                </p>
+                <a href="libs/gsap/index.html" class="btn btn-primary btn-full" aria-label="进入 GSAP 演示">
+                    进入演示 →
+                </a>
+            </article>
         </main>
 
         <!-- 页脚 -->
@@ -217,6 +231,9 @@
                         break;
                     case 9: // Particles.js
                         drawParticlesJSPreview(ctx, canvas.width, canvas.height);
+                        break;
+                    case 10: // GSAP
+                        drawGSAPPreview(ctx, canvas.width, canvas.height);
                         break;
                 }
             });
@@ -714,6 +731,116 @@
             });
         }
 
+        function drawGSAPPreview(ctx, width, height) {
+            // 创建 GSAP 专业动画效果的预览
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            const time = Date.now() * 0.002;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            
+            // 绘制 "GSAP" 文字动画效果
+            ctx.font = 'bold 24px Inter';
+            ctx.textAlign = 'center';
+            const text = 'GSAP';
+            const letters = text.split('');
+            
+            letters.forEach((letter, i) => {
+                const x = centerX + (i - 1.5) * 25;
+                const y = centerY - 30;
+                const bounce = Math.sin(time * 3 + i * 0.8) * 5;
+                const scale = 1 + Math.sin(time * 2 + i * 0.5) * 0.1;
+                
+                ctx.save();
+                ctx.translate(x, y + bounce);
+                ctx.scale(scale, scale);
+                
+                // 渐变色文字
+                const gradient = ctx.createLinearGradient(-15, -15, 15, 15);
+                gradient.addColorStop(0, `hsl(${240 + i * 30}, 80%, 70%)`);
+                gradient.addColorStop(1, `hsl(${270 + i * 30}, 80%, 60%)`);
+                ctx.fillStyle = gradient;
+                ctx.globalAlpha = 0.9;
+                ctx.fillText(letter, 0, 0);
+                
+                ctx.restore();
+            });
+            
+            // 绘制时间轴动画指示器
+            const timelineY = centerY + 20;
+            const timelineWidth = 120;
+            const timelineX = centerX - timelineWidth / 2;
+            
+            ctx.strokeStyle = '#6366f1';
+            ctx.lineWidth = 3;
+            ctx.globalAlpha = 0.6;
+            ctx.beginPath();
+            ctx.moveTo(timelineX, timelineY);
+            ctx.lineTo(timelineX + timelineWidth, timelineY);
+            ctx.stroke();
+            
+            // 动态进度指示器
+            const progress = (Math.sin(time * 2) + 1) / 2;
+            const progressX = timelineX + progress * timelineWidth;
+            
+            ctx.fillStyle = '#ff6b6b';
+            ctx.globalAlpha = 0.8;
+            ctx.beginPath();
+            ctx.arc(progressX, timelineY, 5, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // 绘制旋转的几何元素
+            for (let i = 0; i < 4; i++) {
+                const angle = time + i * Math.PI / 2;
+                const radius = 50;
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                const size = 8 + Math.sin(time * 3 + i) * 3;
+                const rotation = time * 2 + i;
+                
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(rotation);
+                
+                const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b'];
+                ctx.fillStyle = colors[i];
+                ctx.globalAlpha = 0.7;
+                
+                if (i % 2 === 0) {
+                    // 矩形
+                    ctx.fillRect(-size, -size, size * 2, size * 2);
+                } else {
+                    // 圆形
+                    ctx.beginPath();
+                    ctx.arc(0, 0, size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+                
+                ctx.restore();
+            }
+            
+            // 绘制路径动画轨迹
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.globalAlpha = 0.4;
+            ctx.beginPath();
+            
+            for (let t = 0; t <= 1; t += 0.02) {
+                const angle = t * Math.PI * 4 + time * 0.5;
+                const r = 30 + t * 20;
+                const x = centerX + Math.cos(angle) * r;
+                const y = centerY + 50 + Math.sin(angle) * r;
+                
+                if (t === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.stroke();
+        }
+
         // 为动态预览添加动画循环
         function animatePreviews() {
             // Anime.js 动画
@@ -784,6 +911,13 @@
             if (particlesCanvas) {
                 const ctx = particlesCanvas.getContext('2d');
                 drawParticlesJSPreview(ctx, particlesCanvas.width, particlesCanvas.height);
+            }
+
+            // GSAP 动画
+            const gsapCanvas = document.getElementById('gsap-preview');
+            if (gsapCanvas) {
+                const ctx = gsapCanvas.getContext('2d');
+                drawGSAPPreview(ctx, gsapCanvas.width, gsapCanvas.height);
             }
             
             requestAnimationFrame(animatePreviews);

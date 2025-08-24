@@ -44,6 +44,66 @@ const effectConfigs = [
         name: '交错网格',
         description: '网格元素的交错出现动画',
         init: createStaggeredGrid
+    },
+    {
+        id: 'particle-explosion',
+        name: '粒子爆炸',
+        description: '从中心点爆发的粒子动画',
+        init: createParticleExplosion
+    },
+    {
+        id: 'flip-cards',
+        name: '3D翻转卡片',
+        description: '具有3D透视效果的卡片翻转',
+        init: createFlipCards
+    },
+    {
+        id: 'liquid-flow',
+        name: '液体流动',
+        description: '模拟液体流动的形变动画',
+        init: createLiquidFlow
+    },
+    {
+        id: 'breathing-rings',
+        name: '呼吸光环',
+        description: '多层光环的呼吸扩散效果',
+        init: createBreathingRings
+    },
+    {
+        id: 'dna-helix',
+        name: 'DNA螺旋',
+        description: '双螺旋结构的旋转动画',
+        init: createDNAHelix
+    },
+    {
+        id: 'neon-text',
+        name: '霓虹文字',
+        description: '具有霓虹灯效果的文字动画',
+        init: createNeonText
+    },
+    {
+        id: 'sound-ripples',
+        name: '音波涟漪',
+        description: '模拟声波传播的涟漪效果',
+        init: createSoundRipples
+    },
+    {
+        id: 'mosaic-puzzle',
+        name: '马赛克拼图',
+        description: '碎片化和重组的马赛克动画',
+        init: createMosaicPuzzle
+    },
+    {
+        id: 'clock-gears',
+        name: '时钟齿轮',
+        description: '机械齿轮的旋转联动效果',
+        init: createClockGears
+    },
+    {
+        id: 'star-constellation',
+        name: '星空连线',
+        description: '动态星座连线效果',
+        init: createStarConstellation
     }
 ];
 
@@ -437,6 +497,596 @@ function createStaggeredGrid(container) {
         },
         direction: 'alternate',
         loop: true
+    });
+
+    return animation;
+}
+
+/**
+ * 效果7: 粒子爆炸
+ */
+function createParticleExplosion(container) {
+    const particles = [];
+    const centerX = container.offsetWidth / 2;
+    const centerY = container.offsetHeight / 2;
+    const particleCount = 50;
+
+    for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        const size = 4 + Math.random() * 8;
+        const color = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7'][Math.floor(Math.random() * 5)];
+        
+        particle.style.position = 'absolute';
+        particle.style.width = size + 'px';
+        particle.style.height = size + 'px';
+        particle.style.backgroundColor = color;
+        particle.style.borderRadius = '50%';
+        particle.style.left = centerX + 'px';
+        particle.style.top = centerY + 'px';
+        particle.style.boxShadow = `0 0 ${size}px ${color}`;
+        
+        container.appendChild(particle);
+        particles.push(particle);
+    }
+
+    // 创建爆炸动画
+    const animation = anime({
+        targets: particles,
+        translateX: function() {
+            return anime.random(-400, 400);
+        },
+        translateY: function() {
+            return anime.random(-400, 400);
+        },
+        scale: [1, 0],
+        opacity: [1, 0],
+        rotate: function() {
+            return anime.random(0, 720);
+        },
+        duration: function() {
+            return anime.random(2000, 4000);
+        },
+        easing: 'easeOutCubic',
+        loop: true,
+        delay: function(el, i) {
+            return i * 50;
+        },
+        complete: function() {
+            // 重置粒子位置
+            particles.forEach(particle => {
+                particle.style.transform = '';
+                particle.style.opacity = '1';
+            });
+        }
+    });
+
+    return animation;
+}
+
+/**
+ * 效果8: 3D翻转卡片
+ */
+function createFlipCards(container) {
+    const cards = [];
+    const cardCount = 12;
+    const colors = ['#667eea', '#764ba2', '#f093fb', '#f5576c', '#4facfe', '#43e97b'];
+    
+    container.style.perspective = '1000px';
+
+    for (let i = 0; i < cardCount; i++) {
+        const card = document.createElement('div');
+        const size = 80 + Math.random() * 40;
+        
+        card.style.position = 'absolute';
+        card.style.width = size + 'px';
+        card.style.height = size + 'px';
+        card.style.backgroundColor = colors[i % colors.length];
+        card.style.borderRadius = '8px';
+        card.style.left = Math.random() * (container.offsetWidth - size) + 'px';
+        card.style.top = Math.random() * (container.offsetHeight - size) + 'px';
+        card.style.transformStyle = 'preserve-3d';
+        card.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+        
+        container.appendChild(card);
+        cards.push(card);
+    }
+
+    // 创建3D翻转动画
+    const animation = anime({
+        targets: cards,
+        rotateX: function() {
+            return anime.random(-180, 180);
+        },
+        rotateY: function() {
+            return anime.random(-180, 180);
+        },
+        translateZ: function() {
+            return anime.random(-100, 100);
+        },
+        duration: function() {
+            return anime.random(3000, 5000);
+        },
+        easing: 'easeInOutQuart',
+        direction: 'alternate',
+        loop: true,
+        delay: function(el, i) {
+            return i * 200;
+        }
+    });
+
+    return animation;
+}
+
+/**
+ * 效果9: 液体流动
+ */
+function createLiquidFlow(container) {
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.style.position = 'absolute';
+    svg.style.top = '0';
+    svg.style.left = '0';
+    svg.style.width = '100%';
+    svg.style.height = '100%';
+    svg.setAttribute('viewBox', `0 0 ${container.offsetWidth} ${container.offsetHeight}`);
+
+    // 创建液体形状的路径
+    const liquidPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    liquidPath.style.fill = 'url(#liquidGradient)';
+    liquidPath.style.opacity = '0.8';
+
+    // 创建渐变
+    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+    const gradient = document.createElementNS('http://www.w3.org/2000/svg', 'linearGradient');
+    gradient.setAttribute('id', 'liquidGradient');
+    gradient.setAttribute('x1', '0%');
+    gradient.setAttribute('y1', '0%');
+    gradient.setAttribute('x2', '100%');
+    gradient.setAttribute('y2', '100%');
+
+    const stop1 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+    stop1.setAttribute('offset', '0%');
+    stop1.setAttribute('stop-color', '#74b9ff');
+    
+    const stop2 = document.createElementNS('http://www.w3.org/2000/svg', 'stop');
+    stop2.setAttribute('offset', '100%');
+    stop2.setAttribute('stop-color', '#0984e3');
+
+    gradient.appendChild(stop1);
+    gradient.appendChild(stop2);
+    defs.appendChild(gradient);
+    svg.appendChild(defs);
+    svg.appendChild(liquidPath);
+    container.appendChild(svg);
+
+    // 生成液体形状路径数据
+    function generateLiquidPath(t) {
+        const width = container.offsetWidth;
+        const height = container.offsetHeight;
+        const amplitude = 30;
+        const frequency = 0.01;
+        
+        let path = `M 0 ${height/2}`;
+        for (let x = 0; x <= width; x += 10) {
+            const y = height/2 + Math.sin(x * frequency + t) * amplitude + 
+                      Math.sin(x * frequency * 2 + t * 1.5) * amplitude * 0.5;
+            path += ` L ${x} ${y}`;
+        }
+        path += ` L ${width} ${height} L 0 ${height} Z`;
+        return path;
+    }
+
+    let animationTime = 0;
+    
+    // 创建液体流动动画
+    const animation = anime({
+        targets: liquidPath,
+        duration: 100,
+        easing: 'linear',
+        loop: true,
+        update: function() {
+            animationTime += 0.1;
+            liquidPath.setAttribute('d', generateLiquidPath(animationTime));
+        }
+    });
+
+    return animation;
+}
+
+/**
+ * 效果10: 呼吸光环
+ */
+function createBreathingRings(container) {
+    const rings = [];
+    const ringCount = 8;
+    const centerX = container.offsetWidth / 2;
+    const centerY = container.offsetHeight / 2;
+
+    for (let i = 0; i < ringCount; i++) {
+        const ring = document.createElement('div');
+        const size = 50 + i * 30;
+        
+        ring.style.position = 'absolute';
+        ring.style.width = size + 'px';
+        ring.style.height = size + 'px';
+        ring.style.borderRadius = '50%';
+        ring.style.border = '2px solid rgba(116, 185, 255, 0.6)';
+        ring.style.left = centerX - size/2 + 'px';
+        ring.style.top = centerY - size/2 + 'px';
+        ring.style.boxShadow = `0 0 20px rgba(116, 185, 255, 0.4)`;
+        
+        container.appendChild(ring);
+        rings.push(ring);
+    }
+
+    // 创建呼吸动画
+    const animation = anime({
+        targets: rings,
+        scale: function() {
+            return [0.5, 1.2, 0.5];
+        },
+        opacity: function(el, i) {
+            return [0.8, 0.2, 0.8];
+        },
+        duration: function(el, i) {
+            return 3000 + i * 200;
+        },
+        easing: 'easeInOutSine',
+        loop: true,
+        delay: function(el, i) {
+            return i * 300;
+        }
+    });
+
+    return animation;
+}
+
+/**
+ * 效果11: DNA螺旋
+ */
+function createDNAHelix(container) {
+    const points = [];
+    const pointCount = 40;
+    const centerX = container.offsetWidth / 2;
+    const centerY = container.offsetHeight / 2;
+    const radius = 80;
+    const height = 300;
+
+    // 创建DNA双螺旋的点
+    for (let i = 0; i < pointCount; i++) {
+        const angle = (i / pointCount) * Math.PI * 6;
+        const y = (i / pointCount) * height - height/2;
+        
+        // 第一条螺旋
+        const point1 = document.createElement('div');
+        point1.style.position = 'absolute';
+        point1.style.width = '8px';
+        point1.style.height = '8px';
+        point1.style.backgroundColor = '#e74c3c';
+        point1.style.borderRadius = '50%';
+        point1.style.left = centerX + Math.cos(angle) * radius + 'px';
+        point1.style.top = centerY + y + 'px';
+        point1.style.boxShadow = '0 0 10px #e74c3c';
+        
+        // 第二条螺旋
+        const point2 = document.createElement('div');
+        point2.style.position = 'absolute';
+        point2.style.width = '8px';
+        point2.style.height = '8px';
+        point2.style.backgroundColor = '#3498db';
+        point2.style.borderRadius = '50%';
+        point2.style.left = centerX + Math.cos(angle + Math.PI) * radius + 'px';
+        point2.style.top = centerY + y + 'px';
+        point2.style.boxShadow = '0 0 10px #3498db';
+
+        // 连接线
+        if (i % 4 === 0) {
+            const line = document.createElement('div');
+            line.style.position = 'absolute';
+            line.style.width = radius * 2 + 'px';
+            line.style.height = '2px';
+            line.style.backgroundColor = 'rgba(255, 255, 255, 0.3)';
+            line.style.left = centerX - radius + 'px';
+            line.style.top = centerY + y + 'px';
+            line.style.transformOrigin = '50% 50%';
+            line.style.transform = `rotate(${angle * 180/Math.PI}deg)`;
+            
+            container.appendChild(line);
+            points.push(line);
+        }
+        
+        container.appendChild(point1);
+        container.appendChild(point2);
+        points.push(point1, point2);
+    }
+
+    // 创建旋转动画
+    const animation = anime({
+        targets: points,
+        rotate: '360deg',
+        duration: 6000,
+        easing: 'linear',
+        loop: true
+    });
+
+    return animation;
+}
+
+/**
+ * 效果12: 霓虹文字
+ */
+function createNeonText(container) {
+    const text = "NEON EFFECT";
+    const textContainer = document.createElement('div');
+    textContainer.style.position = 'absolute';
+    textContainer.style.top = '50%';
+    textContainer.style.left = '50%';
+    textContainer.style.transform = 'translate(-50%, -50%)';
+    textContainer.style.fontSize = '4rem';
+    textContainer.style.fontWeight = 'bold';
+    textContainer.style.display = 'flex';
+    textContainer.style.gap = '0.3rem';
+
+    // 创建每个字母
+    text.split('').forEach((char, index) => {
+        const letter = document.createElement('span');
+        letter.textContent = char === ' ' ? '\u00A0' : char;
+        letter.style.display = 'inline-block';
+        letter.style.color = '#fff';
+        letter.style.textShadow = `
+            0 0 5px #ff006e,
+            0 0 10px #ff006e,
+            0 0 15px #ff006e,
+            0 0 20px #ff006e
+        `;
+        textContainer.appendChild(letter);
+    });
+
+    container.appendChild(textContainer);
+
+    // 创建霓虹闪烁动画
+    const animation = anime({
+        targets: textContainer.children,
+        textShadow: [
+            '0 0 5px #ff006e, 0 0 10px #ff006e, 0 0 15px #ff006e, 0 0 20px #ff006e',
+            '0 0 10px #8338ec, 0 0 20px #8338ec, 0 0 30px #8338ec, 0 0 40px #8338ec',
+            '0 0 10px #3a86ff, 0 0 20px #3a86ff, 0 0 30px #3a86ff, 0 0 40px #3a86ff',
+            '0 0 5px #ff006e, 0 0 10px #ff006e, 0 0 15px #ff006e, 0 0 20px #ff006e'
+        ],
+        scale: [1, 1.1, 1],
+        duration: 2000,
+        easing: 'easeInOutSine',
+        loop: true,
+        delay: function(el, i) {
+            return i * 100;
+        }
+    });
+
+    return animation;
+}
+
+/**
+ * 效果13: 音波涟漪
+ */
+function createSoundRipples(container) {
+    const ripples = [];
+    const centerX = container.offsetWidth / 2;
+    const centerY = container.offsetHeight / 2;
+
+    // 创建多个涟漪圆圈
+    for (let i = 0; i < 6; i++) {
+        const ripple = document.createElement('div');
+        ripple.style.position = 'absolute';
+        ripple.style.width = '20px';
+        ripple.style.height = '20px';
+        ripple.style.borderRadius = '50%';
+        ripple.style.border = '3px solid #74b9ff';
+        ripple.style.left = centerX - 10 + 'px';
+        ripple.style.top = centerY - 10 + 'px';
+        ripple.style.opacity = '0';
+        
+        container.appendChild(ripple);
+        ripples.push(ripple);
+    }
+
+    // 创建涟漪扩散动画
+    const animation = anime({
+        targets: ripples,
+        scale: [0, 10],
+        opacity: [1, 0],
+        borderWidth: [3, 0],
+        duration: 3000,
+        easing: 'easeOutQuart',
+        loop: true,
+        delay: function(el, i) {
+            return i * 400;
+        }
+    });
+
+    return animation;
+}
+
+/**
+ * 效果14: 马赛克拼图
+ */
+function createMosaicPuzzle(container) {
+    const tiles = [];
+    const tileSize = 40;
+    const cols = Math.floor(container.offsetWidth / tileSize);
+    const rows = Math.floor(container.offsetHeight / tileSize);
+    const colors = ['#ff7675', '#74b9ff', '#55a3ff', '#fd79a8', '#fdcb6e', '#6c5ce7'];
+
+    for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+            const tile = document.createElement('div');
+            tile.style.position = 'absolute';
+            tile.style.width = tileSize + 'px';
+            tile.style.height = tileSize + 'px';
+            tile.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            tile.style.left = col * tileSize + 'px';
+            tile.style.top = row * tileSize + 'px';
+            tile.style.opacity = '0.8';
+            tile.style.border = '1px solid rgba(255,255,255,0.1)';
+            
+            container.appendChild(tile);
+            tiles.push(tile);
+        }
+    }
+
+    // 创建马赛克重组动画
+    const animation = anime({
+        targets: tiles,
+        translateX: function() {
+            return anime.random(-100, 100);
+        },
+        translateY: function() {
+            return anime.random(-100, 100);
+        },
+        rotate: function() {
+            return anime.random(-45, 45);
+        },
+        backgroundColor: function() {
+            return colors[Math.floor(Math.random() * colors.length)];
+        },
+        duration: function() {
+            return anime.random(2000, 4000);
+        },
+        easing: 'easeInOutBack',
+        direction: 'alternate',
+        loop: true,
+        delay: function(el, i) {
+            return i * 20;
+        }
+    });
+
+    return animation;
+}
+
+/**
+ * 效果15: 时钟齿轮
+ */
+function createClockGears(container) {
+    const gears = [];
+    const gearConfigs = [
+        { size: 100, x: 200, y: 200, speed: 1, teeth: 12 },
+        { size: 80, x: 280, y: 150, speed: -1.25, teeth: 10 },
+        { size: 60, x: 350, y: 220, speed: 1.67, teeth: 8 },
+        { size: 120, x: 150, y: 300, speed: -0.83, teeth: 15 }
+    ];
+
+    gearConfigs.forEach((config, index) => {
+        const gear = document.createElement('div');
+        gear.style.position = 'absolute';
+        gear.style.width = config.size + 'px';
+        gear.style.height = config.size + 'px';
+        gear.style.left = config.x - config.size/2 + 'px';
+        gear.style.top = config.y - config.size/2 + 'px';
+        gear.style.borderRadius = '50%';
+        gear.style.border = '4px solid #636e72';
+        gear.style.backgroundColor = '#2d3436';
+        
+        // 添加齿轮齿
+        for (let i = 0; i < config.teeth; i++) {
+            const tooth = document.createElement('div');
+            const angle = (i / config.teeth) * 360;
+            tooth.style.position = 'absolute';
+            tooth.style.width = '8px';
+            tooth.style.height = '12px';
+            tooth.style.backgroundColor = '#636e72';
+            tooth.style.left = '50%';
+            tooth.style.top = '-6px';
+            tooth.style.transformOrigin = '50% ' + (config.size/2 + 6) + 'px';
+            tooth.style.transform = `translate(-50%, 0) rotate(${angle}deg)`;
+            gear.appendChild(tooth);
+        }
+        
+        container.appendChild(gear);
+        gears.push({ element: gear, speed: config.speed });
+    });
+
+    // 创建齿轮旋转动画
+    const animations = gears.map(gear => {
+        return anime({
+            targets: gear.element,
+            rotate: gear.speed > 0 ? '360deg' : '-360deg',
+            duration: 4000 / Math.abs(gear.speed),
+            easing: 'linear',
+            loop: true
+        });
+    });
+
+    return { pause: () => animations.forEach(a => a.pause()), play: () => animations.forEach(a => a.play()) };
+}
+
+/**
+ * 效果16: 星空连线
+ */
+function createStarConstellation(container) {
+    const stars = [];
+    const lines = [];
+    const starCount = 25;
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    
+    svg.style.position = 'absolute';
+    svg.style.top = '0';
+    svg.style.left = '0';
+    svg.style.width = '100%';
+    svg.style.height = '100%';
+    svg.setAttribute('viewBox', `0 0 ${container.offsetWidth} ${container.offsetHeight}`);
+    
+    // 创建星星
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        const size = 2 + Math.random() * 4;
+        const x = Math.random() * container.offsetWidth;
+        const y = Math.random() * container.offsetHeight;
+        
+        star.style.position = 'absolute';
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.backgroundColor = '#fff';
+        star.style.borderRadius = '50%';
+        star.style.left = x + 'px';
+        star.style.top = y + 'px';
+        star.style.boxShadow = '0 0 10px #fff';
+        
+        // 添加连线
+        if (i > 0) {
+            const prevStar = stars[i - 1];
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', prevStar.x);
+            line.setAttribute('y1', prevStar.y);
+            line.setAttribute('x2', x);
+            line.setAttribute('y2', y);
+            line.setAttribute('stroke', 'rgba(255, 255, 255, 0.3)');
+            line.setAttribute('stroke-width', '1');
+            
+            svg.appendChild(line);
+            lines.push(line);
+        }
+        
+        container.appendChild(star);
+        stars.push({ element: star, x, y });
+    }
+    
+    container.appendChild(svg);
+
+    // 创建星空闪烁动画
+    const animation = anime({
+        targets: stars.map(s => s.element),
+        opacity: function() {
+            return [0.3, 1, 0.3];
+        },
+        scale: function() {
+            return [0.5, 1.2, 0.5];
+        },
+        duration: function() {
+            return anime.random(2000, 4000);
+        },
+        easing: 'easeInOutSine',
+        loop: true,
+        delay: function(el, i) {
+            return i * 200;
+        }
     });
 
     return animation;

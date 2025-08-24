@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GSAP 演示 - 背景特效库</title>
+    <meta name="description" content="GSAP专业动画库演示，包括文字动画、位移变换、SVG动画、滚动触发、时间轴控制等高级动画效果">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 演示页面头部 -->
+        <header class="demo-header">
+            <h1 class="demo-title">GSAP</h1>
+            <a href="../../index.html" class="back-btn" aria-label="返回主页">
+                ← 返回主页
+            </a>
+        </header>
+
+        <!-- 效果切换控制面板 -->
+        <div class="controls" role="toolbar" aria-label="效果切换控制">
+            <button class="control-btn" data-effect="typewriter" aria-pressed="false">
+                文字打字机
+            </button>
+            <button class="control-btn" data-effect="text-split" aria-pressed="false">
+                文字分裂
+            </button>
+            <button class="control-btn" data-effect="text-wave" aria-pressed="false">
+                文字波浪
+            </button>
+            <button class="control-btn" data-effect="bounce" aria-pressed="false">
+                位移弹跳
+            </button>
+            <button class="control-btn" data-effect="rotate-scale" aria-pressed="false">
+                旋转缩放
+            </button>
+            <button class="control-btn" data-effect="path-motion" aria-pressed="false">
+                路径动画
+            </button>
+            <button class="control-btn" data-effect="svg-draw" aria-pressed="false">
+                SVG描边
+            </button>
+            <button class="control-btn" data-effect="svg-morph" aria-pressed="false">
+                SVG变形
+            </button>
+            <button class="control-btn" data-effect="path-follow" aria-pressed="false">
+                路径跟随
+            </button>
+            <button class="control-btn" data-effect="scroll-parallax" aria-pressed="false">
+                滚动视差
+            </button>
+            <button class="control-btn" data-effect="scroll-pin" aria-pressed="false">
+                滚动固定
+            </button>
+            <button class="control-btn" data-effect="scroll-trigger" aria-pressed="false">
+                滚动触发
+            </button>
+            <button class="control-btn" data-effect="timeline" aria-pressed="false">
+                时间轴组合
+            </button>
+            <button class="control-btn" data-effect="elastic" aria-pressed="false">
+                弹性动画
+            </button>
+            <button class="control-btn" data-effect="particles" aria-pressed="false">
+                粒子系统
+            </button>
+            <button class="control-btn" data-effect="3d-transform" aria-pressed="false">
+                3D变换
+            </button>
+        </div>
+
+        <!-- 动画容器 -->
+        <div class="canvas-container" id="gsap-container" aria-label="GSAP 效果展示区域">
+            <!-- GSAP 动画会在这里展示 -->
+        </div>
+
+        <!-- 效果说明 -->
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--card-background); border-radius: var(--border-radius-lg); border: 1px solid var(--border-color);">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">操作说明</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.8;">
+                <li><strong>专业动画库：</strong> GSAP是业界标准的Web动画库，性能卓越，功能强大</li>
+                <li><strong>丰富效果：</strong> 支持文字动画、DOM变换、SVG动画、滚动触发等多种效果</li>
+                <li><strong>键盘快捷键：</strong> 使用数字键 1-9、0、Q-Z 快速切换效果，左右箭头键切换上一个/下一个效果</li>
+                <li><strong>时间轴控制：</strong> 强大的Timeline系统，可创建复杂的动画序列</li>
+                <li><strong>插件丰富：</strong> ScrollTrigger、TextPlugin、MotionPath等专业插件</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 引入 GSAP 核心库和插件 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/TextPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/MotionPathPlugin.min.js"></script>
+    <!-- 引入通用切换器 -->
+    <script src="../../assets/js/base-switcher.js"></script>
+    <!-- 引入演示脚本 -->
+    <script src="gsap-demo.js"></script>
+</body>
+</html>
