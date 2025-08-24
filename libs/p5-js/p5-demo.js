@@ -8,14 +8,16 @@ let currentEffect = 'spiral';
 let time = 0;
 let particles = [];
 let flowField = [];
-let noiseOffset = 0;
 let heartParticles = [];
 let balloons = [];
 let sunRays = [];
 let stars = [];
 let fireworks = [];
 let galaxyPoints = [];
-let mandalaCenters = [];
+let sunflowerPetals = [];
+let sunflowerSeeds = [];
+let cloudParticles = [];
+let lightRays = [];
 
 // 效果配置
 const effectConfigs = [
@@ -33,11 +35,6 @@ const effectConfigs = [
         id: 'fractal',
         name: '分形图案',
         description: '递归生成的分形树结构'
-    },
-    {
-        id: 'noise',
-        name: '噪声场',
-        description: '柏林噪声生成的地形效果'
     },
     {
         id: 'waves',
@@ -63,6 +60,21 @@ const effectConfigs = [
         id: 'moon',
         name: '月夜星空',
         description: '宁静的月亮与闪烁星空'
+    },
+    {
+        id: 'sunflower',
+        name: '向日葵花',
+        description: '美丽的向日葵花盛放动效'
+    },
+    {
+        id: 'sunrise',
+        name: '日出东方',
+        description: '壮丽的日出东升景色'
+    },
+    {
+        id: 'sunset',
+        name: '黄昏夕阳',
+        description: '温馨的黄昏日落情景'
     },
     {
         id: 'mandala',
@@ -107,9 +119,6 @@ function draw() {
         case 'fractal':
             drawFractal();
             break;
-        case 'noise':
-            drawNoise();
-            break;
         case 'waves':
             drawWaves();
             break;
@@ -124,6 +133,15 @@ function draw() {
             break;
         case 'moon':
             drawMoon();
+            break;
+        case 'sunflower':
+            drawSunflower();
+            break;
+        case 'sunrise':
+            drawSunrise();
+            break;
+        case 'sunset':
+            drawSunset();
             break;
         case 'mandala':
             drawMandala();
@@ -267,37 +285,298 @@ function branch(len, depth) {
     colorMode(RGB, 255);
 }
 
-function drawNoise() {
-    background(15, 23, 42);
+// 向日葵花效果
+function drawSunflower() {
+    background(135, 206, 250); // 天蓝色背景
     
-    loadPixels();
-    let d = pixelDensity();
-    
-    for (let x = 0; x < width; x++) {
-        for (let y = 0; y < height; y++) {
-            let noiseVal = noise(x * 0.01, y * 0.01, time * 0.5);
-            let bright = map(noiseVal, 0, 1, 0, 255);
-            
-            for (let i = 0; i < d; i++) {
-                for (let j = 0; j < d; j++) {
-                    let index = 4 * ((y * d + j) * width * d + (x * d + i));
-                    
-                    colorMode(HSB, 360, 100, 100);
-                    let hue = map(noiseVal, 0, 1, 200, 300);
-                    let sat = 60;
-                    let brightness = map(bright, 0, 255, 10, 90);
-                    
-                    let c = color(hue, sat, brightness);
-                    pixels[index] = red(c);
-                    pixels[index + 1] = green(c);
-                    pixels[index + 2] = blue(c);
-                    pixels[index + 3] = 255;
-                }
-            }
+    // 初始化向日葵花花瓣和花心
+    if (sunflowerPetals.length === 0) {
+        // 创建花瓣
+        for (let i = 0; i < 20; i++) {
+            sunflowerPetals.push({
+                angle: i * (TWO_PI / 20),
+                length: random(60, 100),
+                width: random(15, 25),
+                sway: random(TWO_PI)
+            });
+        }
+        
+        // 创建花心种子
+        for (let i = 0; i < 200; i++) {
+            let angle = i * 0.618 * TWO_PI; // 黄金角螺旋
+            let radius = sqrt(i) * 3;
+            sunflowerSeeds.push({
+                angle: angle,
+                radius: radius,
+                size: 3 + radius * 0.02
+            });
         }
     }
     
-    updatePixels();
+    push();
+    translate(width/2, height/2);
+    
+    colorMode(HSB, 360, 100, 100);
+    
+    // 绘制花茎（绿色）
+    stroke(120, 60, 40);
+    strokeWeight(12);
+    line(0, 100, 0, height/2);
+    
+    // 绘制花瓣
+    for (let petal of sunflowerPetals) {
+        push();
+        rotate(petal.angle + sin(time * 0.5 + petal.sway) * 0.1);
+        
+        // 花瓣颜色从黄色到橙色
+        fill(50, 90, 90);
+        noStroke();
+        
+        // 绘制椭圆形花瓣
+        ellipse(petal.length/2, 0, petal.length, petal.width);
+        
+        // 花瓣高光
+        fill(55, 70, 100, 150);
+        ellipse(petal.length/2 - petal.length/6, -petal.width/6, petal.length/3, petal.width/3);
+        
+        pop();
+    }
+    
+    // 绘制花心背景
+    fill(30, 80, 60);
+    noStroke();
+    circle(0, 0, 90);
+    
+    // 绘制花心种子螺旋
+    for (let seed of sunflowerSeeds) {
+        let x = cos(seed.angle + time * 0.3) * seed.radius;
+        let y = sin(seed.angle + time * 0.3) * seed.radius;
+        
+        fill(45, 90, 30);
+        noStroke();
+        circle(x, y, seed.size);
+        
+        // 种子高光
+        fill(50, 70, 50, 150);
+        circle(x - seed.size/4, y - seed.size/4, seed.size/2);
+    }
+    
+    // 添加花粉粒子效果
+    if (random() < 0.1) {
+        for (let i = 0; i < 5; i++) {
+            let angle = random(TWO_PI);
+            let radius = random(50, 80);
+            let x = cos(angle) * radius + random(-10, 10);
+            let y = sin(angle) * radius + random(-10, 10);
+            
+            fill(60, 100, 90, 150);
+            noStroke();
+            circle(x, y, 3);
+        }
+    }
+    
+    pop();
+    colorMode(RGB, 255);
+}
+
+// 日出东方效果
+function drawSunrise() {
+    // 初始化云彩粒子
+    if (cloudParticles.length === 0) {
+        for (let i = 0; i < 30; i++) {
+            cloudParticles.push({
+                x: random(width),
+                y: random(height * 0.3, height * 0.7),
+                size: random(30, 80),
+                speed: random(0.2, 0.8),
+                opacity: random(0.3, 0.8)
+            });
+        }
+    }
+    
+    // 初始化光线
+    if (lightRays.length === 0) {
+        for (let i = 0; i < 12; i++) {
+            lightRays.push({
+                angle: -PI/3 + (i * PI/18),
+                length: random(200, 400),
+                opacity: random(0.1, 0.3)
+            });
+        }
+    }
+    
+    colorMode(HSB, 360, 100, 100);
+    
+    // 绘制渐变天空
+    for (let y = 0; y < height; y++) {
+        let inter = map(y, 0, height, 0, 1);
+        let hue = lerp(30, 200, inter); // 从橙色到蓝色
+        let sat = lerp(90, 60, inter);
+        let bright = lerp(90, 70, inter);
+        
+        stroke(hue, sat, bright);
+        line(0, y, width, y);
+    }
+    
+    // 绘制光线
+    let sunX = width * 0.8;
+    let sunY = height * 0.3;
+    
+    for (let ray of lightRays) {
+        stroke(50, 60, 90, ray.opacity * 255);
+        strokeWeight(3);
+        
+        let endX = sunX + cos(ray.angle) * ray.length;
+        let endY = sunY + sin(ray.angle) * ray.length;
+        
+        line(sunX, sunY, endX, endY);
+        
+        // 动态变化光线长度
+        ray.length += sin(time + ray.angle * 5) * 2;
+        ray.length = constrain(ray.length, 150, 450);
+    }
+    
+    // 绘制太阳
+    noStroke();
+    
+    // 太阳光晕
+    for (let i = 8; i > 0; i--) {
+        fill(45, 80, 90, 30);
+        circle(sunX, sunY, 60 + i * 20);
+    }
+    
+    // 太阳本体
+    fill(50, 90, 95);
+    circle(sunX, sunY, 60 + sin(time * 2) * 5);
+    
+    // 绘制云彩
+    for (let cloud of cloudParticles) {
+        cloud.x += cloud.speed;
+        if (cloud.x > width + cloud.size) {
+            cloud.x = -cloud.size;
+        }
+        
+        // 云彩颜色变化
+        let hue = 20 + sin(time + cloud.x * 0.01) * 15;
+        fill(hue, 40, 90, cloud.opacity * 255);
+        noStroke();
+        
+        // 绘制云彩形状
+        ellipse(cloud.x, cloud.y, cloud.size, cloud.size * 0.6);
+        ellipse(cloud.x + cloud.size/3, cloud.y, cloud.size * 0.8, cloud.size * 0.5);
+        ellipse(cloud.x - cloud.size/3, cloud.y, cloud.size * 0.7, cloud.size * 0.4);
+    }
+    
+    colorMode(RGB, 255);
+}
+
+// 黄昏夕阳效果
+function drawSunset() {
+    // 复用云彩粒子系统
+    if (cloudParticles.length === 0) {
+        for (let i = 0; i < 25; i++) {
+            cloudParticles.push({
+                x: random(width),
+                y: random(height * 0.2, height * 0.8),
+                size: random(40, 120),
+                speed: random(0.1, 0.5),
+                opacity: random(0.4, 0.9)
+            });
+        }
+    }
+    
+    colorMode(HSB, 360, 100, 100);
+    
+    // 绘制黄昏渗变天空
+    for (let y = 0; y < height; y++) {
+        let inter = map(y, 0, height, 0, 1);
+        let hue, sat, bright;
+        
+        if (inter < 0.3) {
+            // 上部天空：深蓝色
+            hue = lerp(15, 240, inter * 3.33);
+            sat = lerp(80, 70, inter * 3.33);
+            bright = lerp(60, 30, inter * 3.33);
+        } else if (inter < 0.7) {
+            // 中部：橙色和紫色
+            hue = lerp(30, 300, (inter - 0.3) * 2.5);
+            sat = lerp(90, 60, (inter - 0.3) * 2.5);
+            bright = lerp(80, 50, (inter - 0.3) * 2.5);
+        } else {
+            // 下部：深紫色
+            hue = lerp(300, 270, (inter - 0.7) * 3.33);
+            sat = 40;
+            bright = lerp(50, 20, (inter - 0.7) * 3.33);
+        }
+        
+        stroke(hue, sat, bright);
+        line(0, y, width, y);
+    }
+    
+    // 绘制夕阳
+    let sunX = width * 0.2;
+    let sunY = height * 0.7 + sin(time) * 20; // 微微摇摆
+    
+    // 夕阳光晕
+    noStroke();
+    for (let i = 10; i > 0; i--) {
+        let alpha = map(i, 0, 10, 100, 20);
+        fill(15, 90, 80, alpha);
+        circle(sunX, sunY, 80 + i * 25);
+    }
+    
+    // 夕阳本体
+    fill(15, 95, 90);
+    circle(sunX, sunY, 80);
+    
+    // 夕阳内部纹理
+    fill(20, 80, 95, 150);
+    for (let i = 0; i < 8; i++) {
+        let angle = i * 45 + time * 30;
+        let x = sunX + cos(radians(angle)) * 20;
+        let y = sunY + sin(radians(angle)) * 20;
+        circle(x, y, 8);
+    }
+    
+    // 绘制黄昏云彩
+    for (let cloud of cloudParticles) {
+        cloud.x -= cloud.speed;
+        if (cloud.x < -cloud.size) {
+            cloud.x = width + cloud.size;
+        }
+        
+        // 黄昏云彩的温暖色调
+        let hue = 320 + sin(time * 0.5 + cloud.x * 0.005) * 40;
+        let sat = 60 + sin(time + cloud.y * 0.01) * 20;
+        fill(hue, sat, 70, cloud.opacity * 255);
+        noStroke();
+        
+        // 云彩形状（更柔和）
+        for (let j = 0; j < 4; j++) {
+            let offsetX = (j - 1.5) * cloud.size * 0.3;
+            let offsetY = sin(time + cloud.x * 0.01 + j) * 10;
+            ellipse(cloud.x + offsetX, cloud.y + offsetY, cloud.size * (0.6 + j * 0.1), cloud.size * 0.4);
+        }
+    }
+    
+    // 添加闪烁的星星效果
+    if (time % 100 > 50) { // 间歇性闪烁
+        for (let i = 0; i < 8; i++) {
+            let starX = random(width);
+            let starY = random(height * 0.3);
+            
+            fill(50, 30, 90, 200);
+            noStroke();
+            circle(starX, starY, 2);
+            
+            // 十字星光
+            stroke(50, 30, 90, 150);
+            strokeWeight(1);
+            line(starX - 8, starY, starX + 8, starY);
+            line(starX, starY - 8, starX, starY + 8);
+        }
+    }
+    
     colorMode(RGB, 255);
 }
 
@@ -917,6 +1196,17 @@ function initNewEffects(effectId) {
             break;
         case 'moon':
             stars = [];
+            break;
+        case 'sunflower':
+            sunflowerPetals = [];
+            sunflowerSeeds = [];
+            break;
+        case 'sunrise':
+            cloudParticles = [];
+            lightRays = [];
+            break;
+        case 'sunset':
+            cloudParticles = [];
             break;
         case 'fireworks':
             fireworks = [];
