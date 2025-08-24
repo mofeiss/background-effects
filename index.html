@@ -120,6 +120,34 @@
                     进入演示 →
                 </a>
             </article>
+
+            <!-- Vanta.js 卡片 -->
+            <article class="card">
+                <div class="card-preview" aria-label="Vanta.js 效果预览">
+                    <canvas id="vanta-preview"></canvas>
+                </div>
+                <h3 class="card-title">Vanta.js</h3>
+                <p class="card-description">
+                    基于 Three.js 的 3D 背景特效库，提供波浪、云朵、网格、鸟群等多种精美的 3D 背景效果。
+                </p>
+                <a href="libs/vanta/index.html" class="btn btn-primary btn-full" aria-label="进入 Vanta.js 演示">
+                    进入演示 →
+                </a>
+            </article>
+
+            <!-- Particles.js 卡片 -->
+            <article class="card">
+                <div class="card-preview" aria-label="Particles.js 效果预览">
+                    <canvas id="particles-preview"></canvas>
+                </div>
+                <h3 class="card-title">Particles.js</h3>
+                <p class="card-description">
+                    经典的粒子背景库，轻量高效。提供连线粒子、雪花、气泡等多种粒子效果，兼容性极佳。
+                </p>
+                <a href="libs/particles/index.html" class="btn btn-primary btn-full" aria-label="进入 Particles.js 演示">
+                    进入演示 →
+                </a>
+            </article>
         </main>
 
         <!-- 页脚 -->
@@ -166,6 +194,12 @@
                         break;
                     case 6: // P5.js
                         drawGenerativePreview(ctx, canvas.width, canvas.height);
+                        break;
+                    case 7: // Vanta.js
+                        drawVantaPreview(ctx, canvas.width, canvas.height);
+                        break;
+                    case 8: // Particles.js
+                        drawParticlesJSPreview(ctx, canvas.width, canvas.height);
                         break;
                 }
             });
@@ -345,6 +379,73 @@
                 ctx.arc(x, y, 3, 0, Math.PI * 2);
                 ctx.fill();
             }
+        }
+
+        function drawVantaPreview(ctx, width, height) {
+            // 创建模拟 Vanta 波浪效果的预览
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            ctx.strokeStyle = '#6366f1';
+            ctx.fillStyle = '#6366f1';
+            ctx.globalAlpha = 0.6;
+            
+            // 绘制波浪形状
+            const waveHeight = 20;
+            const waveLength = 80;
+            
+            for (let y = 0; y < height; y += 40) {
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 5) {
+                    const waveY = y + Math.sin((x / waveLength) * Math.PI * 2) * waveHeight;
+                    if (x === 0) {
+                        ctx.moveTo(x, waveY);
+                    } else {
+                        ctx.lineTo(x, waveY);
+                    }
+                }
+                ctx.stroke();
+            }
+        }
+
+        function drawParticlesJSPreview(ctx, width, height) {
+            // 创建模拟经典 Particles.js 效果的预览
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            ctx.strokeStyle = '#6366f1';
+            ctx.fillStyle = '#6366f1';
+            
+            const particles = [];
+            for (let i = 0; i < 12; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: 2 + Math.random() * 2
+                });
+            }
+            
+            // 绘制连线（更密集）
+            ctx.globalAlpha = 0.4;
+            particles.forEach(p1 => {
+                particles.forEach(p2 => {
+                    const dist = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+            
+            // 绘制粒子
+            ctx.globalAlpha = 0.9;
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
         }
 
         // 窗口大小改变时重新绘制预览

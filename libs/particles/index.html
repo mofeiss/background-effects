@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Particles.js 演示 - 背景特效库</title>
+    <meta name="description" content="Particles.js 粒子系统演示，包括默认效果、NASA风格、雪花飘落、气泡上升、连线网络等多种效果">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 演示页面头部 -->
+        <header class="demo-header">
+            <h1 class="demo-title">Particles.js</h1>
+            <a href="../../index.html" class="back-btn" aria-label="返回主页">
+                ← 返回主页
+            </a>
+        </header>
+
+        <!-- 效果切换控制面板 -->
+        <div class="controls" role="toolbar" aria-label="效果切换控制">
+            <button class="control-btn" data-effect="default" aria-pressed="false">
+                默认效果
+            </button>
+            <button class="control-btn" data-effect="nasa" aria-pressed="false">
+                NASA 风格
+            </button>
+            <button class="control-btn" data-effect="snow" aria-pressed="false">
+                雪花飘落
+            </button>
+            <button class="control-btn" data-effect="bubbles" aria-pressed="false">
+                气泡上升
+            </button>
+            <button class="control-btn" data-effect="nyan-cat" aria-pressed="false">
+                连线网络
+            </button>
+        </div>
+
+        <!-- Canvas 容器 -->
+        <div class="canvas-container" id="particles-container" aria-label="Particles.js 效果展示区域">
+            <!-- Particles.js 会在这里创建 canvas -->
+        </div>
+
+        <!-- 效果说明 -->
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--card-background); border-radius: var(--border-radius-lg); border: 1px solid var(--border-color);">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">操作说明</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.8;">
+                <li><strong>经典粒子：</strong> Particles.js 是最经典的粒子背景库，轻量且高效</li>
+                <li><strong>鼠标交互：</strong> 在某些效果中，鼠标移动和点击会影响粒子行为</li>
+                <li><strong>键盘快捷键：</strong> 使用数字键 1-5 快速切换效果，左右箭头键切换上一个/下一个效果</li>
+                <li><strong>高度可配置：</strong> 支持丰富的参数配置，可创造多种不同风格的效果</li>
+                <li><strong>兼容性优秀：</strong> 基于 Canvas 2D，在各种设备上都有良好表现</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 引入 Particles.js -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <!-- 引入通用切换器 -->
+    <script src="../../assets/js/base-switcher.js"></script>
+    <!-- 引入演示脚本 -->
+    <script src="particles-demo.js"></script>
+</body>
+</html>
