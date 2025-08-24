@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>背景特效库演示项目</title>
+    <meta name="description" content="展示多种流行的 JavaScript 背景特效库，包括 tsParticles、Granim.js、Three.js 等">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 页头区域 -->
+        <header class="header">
+            <h1>背景特效库演示项目</h1>
+            <p class="subtitle">
+                探索各种令人惊叹的 Web 背景特效库，每个库都提供了多种精美效果供您体验和学习。
+                点击下方卡片进入对应的演示页面，切换不同的特效样式。
+            </p>
+        </header>
+
+        <!-- 特效库卡片网格 -->
+        <main class="cards-grid">
+            <!-- tsParticles 卡片 -->
+            <article class="card">
+                <div class="card-preview" aria-label="tsParticles 效果预览">
+                    <canvas id="tsparticles-preview"></canvas>
+                </div>
+                <h3 class="card-title">tsParticles</h3>
+                <p class="card-description">
+                    现代化的粒子效果库，是 particles.js 的升级版。提供粒子连线、烟花、星空、泡泡等多种效果，配置灵活，性能出色。
+                </p>
+                <a href="libs/tsparticles/index.html" class="btn btn-primary btn-full" aria-label="进入 tsParticles 演示">
+                    进入演示 →
+                </a>
+            </article>
+
+            <!-- Granim.js 卡片 -->
+            <article class="card">
+                <div class="card-preview" aria-label="Granim.js 效果预览">
+                    <canvas id="granim-preview"></canvas>
+                </div>
+                <h3 class="card-title">Granim.js</h3>
+                <p class="card-description">
+                    专门用于创建流体渐变动画背景的轻量级库。支持多种渐变动画模式，可创建平滑的色彩过渡效果。
+                </p>
+                <a href="libs/granim/index.html" class="btn btn-primary btn-full" aria-label="进入 Granim.js 演示">
+                    进入演示 →
+                </a>
+            </article>
+
+            <!-- Trianglify 卡片 -->
+            <article class="card">
+                <div class="card-preview" aria-label="Trianglify 效果预览">
+                    <canvas id="trianglify-preview"></canvas>
+                </div>
+                <h3 class="card-title">Trianglify</h3>
+                <p class="card-description">
+                    几何三角形背景生成器，可创建低多边形（Low Poly）风格的背景。支持自定义颜色、尺寸和密度。
+                </p>
+                <a href="libs/trianglify/index.html" class="btn btn-primary btn-full" aria-label="进入 Trianglify 演示">
+                    进入演示 →
+                </a>
+            </article>
+
+            <!-- Canvas Nest 卡片 -->
+            <article class="card">
+                <div class="card-preview" aria-label="Canvas Nest 效果预览">
+                    <canvas id="canvas-nest-preview"></canvas>
+                </div>
+                <h3 class="card-title">Canvas Nest</h3>
+                <p class="card-description">
+                    创建连线粒子效果的轻量级库。粒子会随鼠标移动并相互连接，形成动态的网格背景效果。
+                </p>
+                <a href="libs/canvas-nest/index.html" class="btn btn-primary btn-full" aria-label="进入 Canvas Nest 演示">
+                    进入演示 →
+                </a>
+            </article>
+
+            <!-- Matter.js 卡片 -->
+            <article class="card">
+                <div class="card-preview" aria-label="Matter.js 效果预览">
+                    <canvas id="matter-preview"></canvas>
+                </div>
+                <h3 class="card-title">Matter.js</h3>
+                <p class="card-description">
+                    2D 物理引擎，可创建具有重力、碰撞、约束等物理特性的背景效果。适合制作互动性强的动态背景。
+                </p>
+                <a href="libs/matter-js/index.html" class="btn btn-primary btn-full" aria-label="进入 Matter.js 演示">
+                    进入演示 →
+                </a>
+            </article>
+
+            <!-- Three.js 卡片 -->
+            <article class="card">
+                <div class="card-preview" aria-label="Three.js 效果预览">
+                    <canvas id="three-preview"></canvas>
+                </div>
+                <h3 class="card-title">Three.js</h3>
+                <p class="card-description">
+                    功能最强大的 3D 图形库，可创建复杂的 3D 背景效果，如旋转的几何体、粒子系统、着色器效果等。
+                </p>
+                <a href="libs/three-js/index.html" class="btn btn-primary btn-full" aria-label="进入 Three.js 演示">
+                    进入演示 →
+                </a>
+            </article>
+
+            <!-- P5.js 卡片 -->
+            <article class="card">
+                <div class="card-preview" aria-label="P5.js 效果预览">
+                    <canvas id="p5-preview"></canvas>
+                </div>
+                <h3 class="card-title">P5.js</h3>
+                <p class="card-description">
+                    创意编程库，适合制作艺术性和生成性的背景效果。提供简洁的 API，便于创建各种视觉艺术作品。
+                </p>
+                <a href="libs/p5-js/index.html" class="btn btn-primary btn-full" aria-label="进入 P5.js 演示">
+                    进入演示 →
+                </a>
+            </article>
+        </main>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>&copy; 2024 背景特效库演示项目. 本项目仅供学习和演示使用.</p>
+            <p>各特效库的版权归其原作者所有</p>
+        </footer>
+    </div>
+
+    <script>
+        // 简单的预览效果初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 为预览 canvas 添加简单的占位效果
+            initPreviews();
+        });
+
+        function initPreviews() {
+            const previews = document.querySelectorAll('.card-preview canvas');
+            
+            previews.forEach((canvas, index) => {
+                const ctx = canvas.getContext('2d');
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+                
+                // 根据不同的库显示不同的预览效果
+                switch(index) {
+                    case 0: // tsParticles
+                        drawParticlesPreview(ctx, canvas.width, canvas.height);
+                        break;
+                    case 1: // Granim
+                        drawGradientPreview(ctx, canvas.width, canvas.height);
+                        break;
+                    case 2: // Trianglify
+                        drawTrianglesPreview(ctx, canvas.width, canvas.height);
+                        break;
+                    case 3: // Canvas Nest
+                        drawNetPreview(ctx, canvas.width, canvas.height);
+                        break;
+                    case 4: // Matter.js
+                        drawPhysicsPreview(ctx, canvas.width, canvas.height);
+                        break;
+                    case 5: // Three.js
+                        draw3DPreview(ctx, canvas.width, canvas.height);
+                        break;
+                    case 6: // P5.js
+                        drawGenerativePreview(ctx, canvas.width, canvas.height);
+                        break;
+                }
+            });
+        }
+
+        // 预览效果绘制函数
+        function drawParticlesPreview(ctx, width, height) {
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            // 绘制一些连接的粒子点
+            ctx.strokeStyle = '#6366f1';
+            ctx.fillStyle = '#6366f1';
+            
+            const particles = [];
+            for (let i = 0; i < 15; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    size: 2 + Math.random() * 3
+                });
+            }
+            
+            // 绘制连线
+            particles.forEach(p1 => {
+                particles.forEach(p2 => {
+                    const dist = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+                    if (dist < 80) {
+                        ctx.globalAlpha = 0.3;
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+            
+            // 绘制粒子
+            ctx.globalAlpha = 0.8;
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+        }
+
+        function drawGradientPreview(ctx, width, height) {
+            const gradient = ctx.createLinearGradient(0, 0, width, height);
+            gradient.addColorStop(0, '#6366f1');
+            gradient.addColorStop(0.5, '#8b5cf6');
+            gradient.addColorStop(1, '#ec4899');
+            
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+        }
+
+        function drawTrianglesPreview(ctx, width, height) {
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b'];
+            
+            for (let i = 0; i < 20; i++) {
+                ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+                ctx.globalAlpha = 0.6;
+                
+                ctx.beginPath();
+                ctx.moveTo(Math.random() * width, Math.random() * height);
+                ctx.lineTo(Math.random() * width, Math.random() * height);
+                ctx.lineTo(Math.random() * width, Math.random() * height);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+
+        function drawNetPreview(ctx, width, height) {
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            ctx.strokeStyle = '#6366f1';
+            ctx.globalAlpha = 0.4;
+            
+            // 绘制网格
+            for (let x = 0; x <= width; x += 30) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            
+            for (let y = 0; y <= height; y += 30) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+        }
+
+        function drawPhysicsPreview(ctx, width, height) {
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            const shapes = ['#6366f1', '#8b5cf6', '#ec4899'];
+            
+            // 绘制一些几何形状模拟物理效果
+            for (let i = 0; i < 8; i++) {
+                ctx.fillStyle = shapes[i % shapes.length];
+                ctx.globalAlpha = 0.7;
+                
+                const x = Math.random() * width;
+                const y = Math.random() * height;
+                const size = 10 + Math.random() * 20;
+                
+                if (i % 2 === 0) {
+                    // 圆形
+                    ctx.beginPath();
+                    ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    // 矩形
+                    ctx.fillRect(x - size / 2, y - size / 2, size, size);
+                }
+            }
+        }
+
+        function draw3DPreview(ctx, width, height) {
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            // 简单的 3D 线框效果
+            ctx.strokeStyle = '#6366f1';
+            ctx.globalAlpha = 0.8;
+            
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const size = 60;
+            
+            // 绘制立方体线框
+            const points = [
+                [-size, -size, -size], [size, -size, -size], [size, size, -size], [-size, size, -size],
+                [-size, -size, size], [size, -size, size], [size, size, size], [-size, size, size]
+            ];
+            
+            const edges = [
+                [0,1], [1,2], [2,3], [3,0], [4,5], [5,6], [6,7], [7,4],
+                [0,4], [1,5], [2,6], [3,7]
+            ];
+            
+            edges.forEach(edge => {
+                const start = points[edge[0]];
+                const end = points[edge[1]];
+                
+                ctx.beginPath();
+                ctx.moveTo(centerX + start[0], centerY + start[1]);
+                ctx.lineTo(centerX + end[0], centerY + end[1]);
+                ctx.stroke();
+            });
+        }
+
+        function drawGenerativePreview(ctx, width, height) {
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            // 生成艺术效果
+            const centerX = width / 2;
+            const centerY = height / 2;
+            
+            for (let i = 0; i < 50; i++) {
+                const angle = (i / 50) * Math.PI * 2;
+                const radius = 20 + i * 2;
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                
+                ctx.fillStyle = `hsl(${250 + i * 2}, 70%, 60%)`;
+                ctx.globalAlpha = 0.6;
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // 窗口大小改变时重新绘制预览
+        window.addEventListener('resize', () => {
+            setTimeout(initPreviews, 100);
+        });
+    </script>
+</body>
+</html>

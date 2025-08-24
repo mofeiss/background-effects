@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Nest 演示 - 背景特效库</title>
+    <meta name="description" content="Canvas Nest 连线粒子演示">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="demo-header">
+            <h1 class="demo-title">Canvas Nest</h1>
+            <a href="../../index.html" class="back-btn" aria-label="返回主页">← 返回主页</a>
+        </header>
+
+        <div class="controls" role="toolbar" aria-label="效果切换控制">
+            <button class="control-btn" data-effect="default" aria-pressed="false">默认效果</button>
+            <button class="control-btn" data-effect="colorful" aria-pressed="false">彩色连线</button>
+            <button class="control-btn" data-effect="dense" aria-pressed="false">密集粒子</button>
+            <button class="control-btn" data-effect="slow" aria-pressed="false">慢速动画</button>
+            <button class="control-btn" data-effect="interactive" aria-pressed="false">交互增强</button>
+        </div>
+
+        <div class="canvas-container" id="canvas-nest-container" aria-label="Canvas Nest 效果展示区域">
+            <canvas id="canvas-nest-canvas"></canvas>
+        </div>
+
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--card-background); border-radius: var(--border-radius-lg); border: 1px solid var(--border-color);">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">操作说明</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.8;">
+                <li><strong>连线粒子：</strong> 粒子会根据距离自动连线形成网络</li>
+                <li><strong>鼠标交互：</strong> 移动鼠标可以吸引附近的粒子</li>
+                <li><strong>键盘快捷键：</strong> 使用数字键 1-5 快速切换效果</li>
+                <li><strong>轻量简洁：</strong> 基于原生 Canvas API，性能优秀</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="../../assets/js/base-switcher.js"></script>
+    <script src="canvas-nest-demo.js"></script>
+</body>
+</html>

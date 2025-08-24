@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>P5.js 演示 - 背景特效库</title>
+    <meta name="description" content="P5.js 创意编程演示，包括螺旋艺术、流体模拟、分形图案、噪声场、彩虹波浪等效果">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="demo-header">
+            <h1 class="demo-title">P5.js</h1>
+            <a href="../../index.html" class="back-btn" aria-label="返回主页">← 返回主页</a>
+        </header>
+
+        <div class="controls" role="toolbar" aria-label="效果切换控制">
+            <button class="control-btn" data-effect="spiral" aria-pressed="false">螺旋艺术</button>
+            <button class="control-btn" data-effect="flow" aria-pressed="false">流体模拟</button>
+            <button class="control-btn" data-effect="fractal" aria-pressed="false">分形图案</button>
+            <button class="control-btn" data-effect="noise" aria-pressed="false">噪声场</button>
+            <button class="control-btn" data-effect="waves" aria-pressed="false">彩虹波浪</button>
+        </div>
+
+        <div class="canvas-container" id="p5-container" aria-label="P5.js 效果展示区域">
+            <!-- P5.js 会在这里创建 canvas -->
+        </div>
+
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--card-background); border-radius: var(--border-radius-lg); border: 1px solid var(--border-color);">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">操作说明</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.8;">
+                <li><strong>创意编程：</strong> P5.js 让艺术创作和编程变得简单有趣</li>
+                <li><strong>鼠标交互：</strong> 移动鼠标可能会影响某些艺术效果</li>
+                <li><strong>键盘快捷键：</strong> 使用数字键 1-5 快速切换效果</li>
+                <li><strong>生成艺术：</strong> 每次加载可能会产生不同的视觉效果</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <script src="../../assets/js/base-switcher.js"></script>
+    <script src="p5-demo.js"></script>
+</body>
+</html>
