@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Confetti 演示 - 背景特效库</title>
+    <meta name="description" content="Canvas Confetti 彩带庆祝效果演示，包括爆炸式彩带、彩带雨、烟花爆炸、彩虹庆祝、心形庆祝、金币喷洒等多种庆祝动画">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 演示页面头部 -->
+        <header class="demo-header">
+            <h1 class="demo-title">Canvas Confetti</h1>
+            <a href="../../index.html" class="back-btn" aria-label="返回主页">
+                ← 返回主页
+            </a>
+        </header>
+
+        <!-- 效果切换控制面板 -->
+        <div class="controls" role="toolbar" aria-label="效果切换控制">
+            <button class="control-btn" data-effect="classic-burst" aria-pressed="false">
+                爆炸式彩带
+            </button>
+            <button class="control-btn" data-effect="confetti-rain" aria-pressed="false">
+                彩带雨
+            </button>
+            <button class="control-btn" data-effect="fireworks" aria-pressed="false">
+                烟花爆炸
+            </button>
+            <button class="control-btn" data-effect="rainbow-celebration" aria-pressed="false">
+                彩虹庆祝
+            </button>
+            <button class="control-btn" data-effect="heart-celebration" aria-pressed="false">
+                心形庆祝
+            </button>
+            <button class="control-btn" data-effect="gold-coins" aria-pressed="false">
+                金币喷洒
+            </button>
+        </div>
+
+        <!-- Canvas 容器 -->
+        <div class="canvas-container" id="confetti-container" aria-label="Canvas Confetti 效果展示区域">
+            <!-- Canvas Confetti 会在这里创建全屏效果 -->
+        </div>
+
+        <!-- 效果说明 -->
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--card-background); border-radius: var(--border-radius-lg); border: 1px solid var(--border-color);">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">操作说明</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.8;">
+                <li><strong>庆祝特效：</strong> Canvas Confetti 专门用于创建庆祝彩带动画效果</li>
+                <li><strong>手动触发：</strong> 点击按钮或按回车键手动触发庆祝效果</li>
+                <li><strong>键盘快捷键：</strong> 使用数字键 1-6 快速切换效果，左右箭头键切换上一个/下一个效果</li>
+                <li><strong>丰富配置：</strong> 支持自定义颜色、形状、数量、重力等参数</li>
+                <li><strong>性能优异：</strong> 基于 Canvas API，轻量级且兼容性极佳</li>
+                <li><strong>多种场景：</strong> 适用于节庆、庆祝、成功提示等各种场景</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 引入 Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.0/dist/confetti.browser.min.js"></script>
+    <!-- 引入通用切换器 -->
+    <script src="../../assets/js/base-switcher.js"></script>
+    <!-- 引入演示脚本 -->
+    <script src="confetti-demo.js"></script>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime.js 演示 - 背景特效库</title>
+    <meta name="description" content="Anime.js DOM动画演示，包括文字动画、图形变换、路径动画、弹性动画、粒子文字、波浪效果等多种效果">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 演示页面头部 -->
+        <header class="demo-header">
+            <h1 class="demo-title">Anime.js</h1>
+            <a href="../../index.html" class="back-btn" aria-label="返回主页">
+                ← 返回主页
+            </a>
+        </header>
+
+        <!-- 效果切换控制面板 -->
+        <div class="controls" role="toolbar" aria-label="效果切换控制">
+            <button class="control-btn" data-effect="floating-shapes" aria-pressed="false">
+                浮动图形
+            </button>
+            <button class="control-btn" data-effect="text-wave" aria-pressed="false">
+                文字波浪
+            </button>
+            <button class="control-btn" data-effect="morphing-grid" aria-pressed="false">
+                变形网格
+            </button>
+            <button class="control-btn" data-effect="elastic-circles" aria-pressed="false">
+                弹性圆圈
+            </button>
+            <button class="control-btn" data-effect="path-drawing" aria-pressed="false">
+                路径绘制
+            </button>
+            <button class="control-btn" data-effect="staggered-grid" aria-pressed="false">
+                交错网格
+            </button>
+        </div>
+
+        <!-- 动画容器 -->
+        <div class="canvas-container" id="anime-container" aria-label="Anime.js 效果展示区域">
+            <!-- Anime.js 会在这里创建 DOM 元素动画 -->
+        </div>
+
+        <!-- 效果说明 -->
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--card-background); border-radius: var(--border-radius-lg); border: 1px solid var(--border-color);">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">操作说明</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.8;">
+                <li><strong>DOM动画：</strong> Anime.js 专注于DOM元素动画，不同于Canvas绘制的粒子效果</li>
+                <li><strong>高性能：</strong> 使用现代浏览器的优化特性，动画流畅度极佳</li>
+                <li><strong>键盘快捷键：</strong> 使用数字键 1-6 快速切换效果，左右箭头键切换上一个/下一个效果</li>
+                <li><strong>时间轴控制：</strong> 支持复杂的动画序列和时间轴控制</li>
+                <li><strong>易于集成：</strong> 可以直接作用于现有的HTML元素，无需额外的Canvas</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 引入 Anime.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <!-- 引入通用切换器 -->
+    <script src="../../assets/js/base-switcher.js"></script>
+    <!-- 引入演示脚本 -->
+    <script src="anime-demo.js"></script>
+</body>
+</html>

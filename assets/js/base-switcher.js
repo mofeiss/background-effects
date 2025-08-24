@@ -243,6 +243,7 @@ document.addEventListener('keydown', (e) => {
             case '3':
             case '4':
             case '5':
+            case '6':
                 e.preventDefault();
                 const index = parseInt(e.key) - 1;
                 const effectIds = Array.from(window.effectSwitcher.getAllEffects().keys());
@@ -254,9 +255,125 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
+// 新版通用切换器 - 适用于新演示页面风格
+class BaseSwitcher {
+    constructor(effects, switchCallback, initialIndex = 0) {
+        this.effects = effects;
+        this.switchCallback = switchCallback;
+        this.currentIndex = initialIndex;
+        this.isChanging = false;
+        
+        this.init();
+    }
+    
+    init() {
+        this.bindEvents();
+        this.bindKeyboard();
+    }
+    
+    bindEvents() {
+        // 绑定前后切换按钮
+        const prevBtn = document.getElementById('prev-effect');
+        const nextBtn = document.getElementById('next-effect');
+        
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => this.previousEffect());
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => this.nextEffect());
+        }
+    }
+    
+    bindKeyboard() {
+        this.keyboardHandler = (e) => {
+            if (e.target.tagName === 'INPUT') return;
+            
+            switch(e.code) {
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    this.previousEffect();
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    this.nextEffect();
+                    break;
+                case 'Digit1':
+                case 'Digit2':
+                case 'Digit3':
+                case 'Digit4':
+                case 'Digit5':
+                case 'Digit6':
+                case 'Digit7':
+                case 'Digit8':
+                case 'Digit9':
+                    e.preventDefault();
+                    const index = parseInt(e.code.replace('Digit', '')) - 1;
+                    if (index >= 0 && index < this.effects.length) {
+                        this.switchToIndex(index);
+                    }
+                    break;
+            }
+        };
+        
+        document.addEventListener('keydown', this.keyboardHandler);
+    }
+    
+    previousEffect() {
+        if (this.isChanging) return;
+        
+        const newIndex = this.currentIndex === 0 ? this.effects.length - 1 : this.currentIndex - 1;
+        this.switchToIndex(newIndex);
+    }
+    
+    nextEffect() {
+        if (this.isChanging) return;
+        
+        const newIndex = (this.currentIndex + 1) % this.effects.length;
+        this.switchToIndex(newIndex);
+    }
+    
+    switchToIndex(index) {
+        if (this.isChanging || index === this.currentIndex || index < 0 || index >= this.effects.length) {
+            return;
+        }
+        
+        this.isChanging = true;
+        this.currentIndex = index;
+        
+        try {
+            this.switchCallback(index);
+        } catch (error) {
+            console.error('切换效果时出错:', error);
+        } finally {
+            this.isChanging = false;
+        }
+    }
+    
+    destroy() {
+        // 移除键盘事件监听器
+        if (this.keyboardHandler) {
+            document.removeEventListener('keydown', this.keyboardHandler);
+        }
+        
+        // 移除按钮事件监听器
+        const prevBtn = document.getElementById('prev-effect');
+        const nextBtn = document.getElementById('next-effect');
+        
+        if (prevBtn) {
+            prevBtn.replaceWith(prevBtn.cloneNode(true));
+        }
+        
+        if (nextBtn) {
+            nextBtn.replaceWith(nextBtn.cloneNode(true));
+        }
+    }
+}
+
 // 导出类
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = EffectSwitcher;
+    module.exports = { EffectSwitcher, BaseSwitcher };
 } else {
     window.EffectSwitcher = EffectSwitcher;
+    window.BaseSwitcher = BaseSwitcher;
 }

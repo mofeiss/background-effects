@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>背景特效库演示项目</title>
-    <meta name="description" content="展示多种流行的 JavaScript 背景特效库，包括 tsParticles、Granim.js、Three.js 等">
+    <meta name="description" content="展示多种流行的 JavaScript 背景特效库，包括 Anime.js、Canvas Confetti、Rough.js、Trianglify、Three.js、P5.js、Vanta.js、Particles.js 等">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,30 +23,44 @@
 
         <!-- 特效库卡片网格 -->
         <main class="cards-grid">
-            <!-- tsParticles 卡片 -->
+            <!-- Anime.js 卡片 -->
             <article class="card">
-                <div class="card-preview" aria-label="tsParticles 效果预览">
-                    <canvas id="tsparticles-preview"></canvas>
+                <div class="card-preview" aria-label="Anime.js 效果预览">
+                    <canvas id="anime-preview"></canvas>
                 </div>
-                <h3 class="card-title">tsParticles</h3>
+                <h3 class="card-title">Anime.js</h3>
                 <p class="card-description">
-                    现代化的粒子效果库，是 particles.js 的升级版。提供粒子连线、烟花、星空、泡泡等多种效果，配置灵活，性能出色。
+                    轻量级的 JavaScript 动画库，专注于 DOM 元素动画。提供丰富的动画效果，如文字动画、图形变换、路径绘制等。
                 </p>
-                <a href="libs/tsparticles/index.html" class="btn btn-primary btn-full" aria-label="进入 tsParticles 演示">
+                <a href="libs/anime-js/index.html" class="btn btn-primary btn-full" aria-label="进入 Anime.js 演示">
                     进入演示 →
                 </a>
             </article>
 
-            <!-- Granim.js 卡片 -->
+            <!-- Canvas Confetti 卡片 -->
             <article class="card">
-                <div class="card-preview" aria-label="Granim.js 效果预览">
-                    <canvas id="granim-preview"></canvas>
+                <div class="card-preview" aria-label="Canvas Confetti 效果预览">
+                    <canvas id="confetti-preview"></canvas>
                 </div>
-                <h3 class="card-title">Granim.js</h3>
+                <h3 class="card-title">Canvas Confetti</h3>
                 <p class="card-description">
-                    专门用于创建流体渐变动画背景的轻量级库。支持多种渐变动画模式，可创建平滑的色彩过渡效果。
+                    专业的彩带庆祝效果库，轻量高效。提供爆炸、下雨、烟花等多种庆祝动画，完美适用于节庆和庆祝场景。
                 </p>
-                <a href="libs/granim/index.html" class="btn btn-primary btn-full" aria-label="进入 Granim.js 演示">
+                <a href="libs/canvas-confetti/index.html" class="btn btn-primary btn-full" aria-label="进入 Canvas Confetti 演示">
+                    进入演示 →
+                </a>
+            </article>
+
+            <!-- Rough.js 卡片 -->
+            <article class="card">
+                <div class="card-preview" aria-label="Rough.js 效果预览">
+                    <canvas id="rough-preview"></canvas>
+                </div>
+                <h3 class="card-title">Rough.js</h3>
+                <p class="card-description">
+                    独特的手绘风格图形库，模拟真实手工绘制效果。支持各种几何图形，为网页添加自然粗糙的艺术感。
+                </p>
+                <a href="libs/rough-js/index.html" class="btn btn-primary btn-full" aria-label="进入 Rough.js 演示">
                     进入演示 →
                 </a>
             </article>
@@ -174,31 +188,34 @@
                 
                 // 根据不同的库显示不同的预览效果
                 switch(index) {
-                    case 0: // tsParticles
-                        drawParticlesPreview(ctx, canvas.width, canvas.height);
+                    case 0: // Anime.js
+                        drawAnimePreview(ctx, canvas.width, canvas.height);
                         break;
-                    case 1: // Granim
-                        drawGradientPreview(ctx, canvas.width, canvas.height);
+                    case 1: // Canvas Confetti
+                        drawConfettiPreview(ctx, canvas.width, canvas.height);
                         break;
-                    case 2: // Trianglify
+                    case 2: // Rough.js
+                        drawRoughPreview(ctx, canvas.width, canvas.height);
+                        break;
+                    case 3: // Trianglify
                         drawTrianglesPreview(ctx, canvas.width, canvas.height);
                         break;
-                    case 3: // Canvas Nest
+                    case 4: // Canvas Nest
                         drawNetPreview(ctx, canvas.width, canvas.height);
                         break;
-                    case 4: // Matter.js
+                    case 5: // Matter.js
                         drawPhysicsPreview(ctx, canvas.width, canvas.height);
                         break;
-                    case 5: // Three.js
+                    case 6: // Three.js
                         draw3DPreview(ctx, canvas.width, canvas.height);
                         break;
-                    case 6: // P5.js
+                    case 7: // P5.js
                         drawGenerativePreview(ctx, canvas.width, canvas.height);
                         break;
-                    case 7: // Vanta.js
+                    case 8: // Vanta.js
                         drawVantaPreview(ctx, canvas.width, canvas.height);
                         break;
-                    case 8: // Particles.js
+                    case 9: // Particles.js
                         drawParticlesJSPreview(ctx, canvas.width, canvas.height);
                         break;
                 }
@@ -206,54 +223,153 @@
         }
 
         // 预览效果绘制函数
-        function drawParticlesPreview(ctx, width, height) {
+        function drawConfettiPreview(ctx, width, height) {
+            // 创建模拟 Canvas Confetti 彩带效果的预览
             ctx.fillStyle = '#0f172a';
             ctx.fillRect(0, 0, width, height);
             
-            // 绘制一些连接的粒子点
-            ctx.strokeStyle = '#6366f1';
-            ctx.fillStyle = '#6366f1';
+            const time = Date.now() * 0.004;
+            const confettiColors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#f9ca24', '#f0932b', '#eb4d4b', '#6c5ce7'];
             
-            const particles = [];
-            for (let i = 0; i < 15; i++) {
-                particles.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    size: 2 + Math.random() * 3
-                });
+            // 绘制彩带片（下落效果）
+            for (let i = 0; i < 20; i++) {
+                const x = (i * 50 + Math.sin(time + i) * 30) % (width + 100) - 50;
+                const y = (time * 100 + i * 40) % (height + 100) - 50;
+                const rotation = time + i * 0.5;
+                const size = 8 + Math.sin(time * 2 + i) * 4;
+                
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(rotation);
+                ctx.fillStyle = confettiColors[i % confettiColors.length];
+                ctx.globalAlpha = 0.8;
+                ctx.fillRect(-size/2, -size/2, size, size);
+                ctx.restore();
             }
             
-            // 绘制连线
-            particles.forEach(p1 => {
-                particles.forEach(p2 => {
-                    const dist = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
-                    if (dist < 80) {
-                        ctx.globalAlpha = 0.3;
+            // 添加一些圆形彩带
+            for (let i = 0; i < 15; i++) {
+                const x = ((i * 60 + Math.cos(time * 0.8 + i) * 40) % (width + 100)) - 50;
+                const y = ((time * 80 + i * 50) % (height + 100)) - 50;
+                const size = 6 + Math.sin(time * 3 + i * 0.7) * 3;
+                
+                ctx.fillStyle = confettiColors[(i + 3) % confettiColors.length];
+                ctx.globalAlpha = 0.7;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        
+        function drawRoughPreview(ctx, width, height) {
+            // 创建模拟 Rough.js 手绘风格的预览
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            const time = Date.now() * 0.002;
+            ctx.strokeStyle = '#6366f1';
+            ctx.lineWidth = 2;
+            ctx.globalAlpha = 0.8;
+            
+            // 绘制不规则矩形（模拟手绘效果）
+            for (let i = 0; i < 6; i++) {
+                const x = (i % 3) * (width / 3) + width / 6;
+                const y = Math.floor(i / 3) * (height / 2) + height / 4;
+                const size = 40 + Math.sin(time + i) * 10;
+                
+                // 模拟手绘的不规则线条
+                ctx.strokeStyle = ['#6366f1', '#8b5cf6', '#ec4899'][i % 3];
+                ctx.beginPath();
+                
+                // 不规则的矩形
+                const jitter = 3;
+                ctx.moveTo(x - size/2 + Math.random() * jitter, y - size/2 + Math.random() * jitter);
+                ctx.lineTo(x + size/2 + Math.random() * jitter, y - size/2 + Math.random() * jitter);
+                ctx.lineTo(x + size/2 + Math.random() * jitter, y + size/2 + Math.random() * jitter);
+                ctx.lineTo(x - size/2 + Math.random() * jitter, y + size/2 + Math.random() * jitter);
+                ctx.closePath();
+                ctx.stroke();
+                
+                // 添加手绘风格的填充线条
+                if (i % 2 === 0) {
+                    ctx.globalAlpha = 0.3;
+                    for (let j = 0; j < 5; j++) {
+                        const lineY = y - size/2 + (j / 4) * size + Math.sin(time * 2 + i + j) * 2;
                         ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
+                        ctx.moveTo(x - size/2, lineY);
+                        ctx.lineTo(x + size/2, lineY);
                         ctx.stroke();
                     }
-                });
-            });
+                    ctx.globalAlpha = 0.8;
+                }
+            }
             
-            // 绘制粒子
-            ctx.globalAlpha = 0.8;
-            particles.forEach(p => {
+            // 绘制一些手绘风格的圆形
+            for (let i = 0; i < 4; i++) {
+                const centerX = width / 2 + Math.cos(time + i * Math.PI / 2) * 60;
+                const centerY = height / 2 + Math.sin(time + i * Math.PI / 2) * 40;
+                const radius = 15 + Math.sin(time * 3 + i) * 5;
+                
+                ctx.strokeStyle = '#f59e0b';
+                ctx.globalAlpha = 0.6;
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
+                
+                // 不规则的圆形路径
+                const points = 16;
+                for (let j = 0; j <= points; j++) {
+                    const angle = (j / points) * Math.PI * 2;
+                    const r = radius + Math.sin(angle * 4 + time * 2) * 3;
+                    const x = centerX + Math.cos(angle) * r;
+                    const y = centerY + Math.sin(angle) * r;
+                    
+                    if (j === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                ctx.stroke();
+            }
         }
-
-        function drawGradientPreview(ctx, width, height) {
-            const gradient = ctx.createLinearGradient(0, 0, width, height);
-            gradient.addColorStop(0, '#6366f1');
-            gradient.addColorStop(0.5, '#8b5cf6');
-            gradient.addColorStop(1, '#ec4899');
-            
-            ctx.fillStyle = gradient;
+        
+        function drawAnimePreview(ctx, width, height) {
+            // 创建模拟 Anime.js DOM 动画效果的预览
+            ctx.fillStyle = '#0f172a';
             ctx.fillRect(0, 0, width, height);
+            
+            // 绘制“ANIME”文字动画
+            ctx.font = 'bold 20px Inter';
+            ctx.textAlign = 'center';
+            const text = 'ANIME';
+            const letters = text.split('');
+            
+            letters.forEach((letter, i) => {
+                const x = width / 2 + (i - 2) * 25;
+                const y = height / 2 - 20;
+                const time = Date.now() * 0.003;
+                const wave = Math.sin(time + i * 0.8) * 8;
+                
+                ctx.fillStyle = `hsl(${240 + i * 20}, 70%, 65%)`;
+                ctx.globalAlpha = 0.9;
+                ctx.fillText(letter, x, y + wave);
+            });
+            
+            // 绘制浮动的小元素
+            const time = Date.now() * 0.002;
+            for (let i = 0; i < 8; i++) {
+                const angle = time + i * (Math.PI * 2 / 8);
+                const radius = 50 + Math.sin(time * 1.5 + i) * 15;
+                const x = width / 2 + Math.cos(angle) * radius;
+                const y = height / 2 + 20 + Math.sin(angle) * radius;
+                const size = 3 + Math.sin(time * 2 + i) * 2;
+                
+                const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b'];
+                ctx.fillStyle = colors[i % colors.length];
+                ctx.globalAlpha = 0.7;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
 
         function drawTrianglesPreview(ctx, width, height) {
@@ -447,6 +563,37 @@
                 ctx.fill();
             });
         }
+
+        // 为动态预览添加动画循环
+        function animatePreviews() {
+            // Anime.js 动画
+            const animeCanvas = document.getElementById('anime-preview');
+            if (animeCanvas) {
+                const ctx = animeCanvas.getContext('2d');
+                drawAnimePreview(ctx, animeCanvas.width, animeCanvas.height);
+            }
+            
+            // Canvas Confetti 动画
+            const confettiCanvas = document.getElementById('confetti-preview');
+            if (confettiCanvas) {
+                const ctx = confettiCanvas.getContext('2d');
+                drawConfettiPreview(ctx, confettiCanvas.width, confettiCanvas.height);
+            }
+            
+            // Rough.js 动画
+            const roughCanvas = document.getElementById('rough-preview');
+            if (roughCanvas) {
+                const ctx = roughCanvas.getContext('2d');
+                drawRoughPreview(ctx, roughCanvas.width, roughCanvas.height);
+            }
+            
+            requestAnimationFrame(animatePreviews);
+        }
+        
+        // 启动预览动画
+        setTimeout(() => {
+            animatePreviews();
+        }, 1000);
 
         // 窗口大小改变时重新绘制预览
         window.addEventListener('resize', () => {

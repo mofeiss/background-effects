@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rough.js 演示 - 背景特效库</title>
+    <meta name="description" content="Rough.js 手绘风格图形演示，包括几何图案、线条艺术、网格系统、有机形状、装饰边框、抽象拼贴、手绘曼陀罗、星座图谱、复古壁纸、电路板、森林天窗、音乐符号、梵高星空和海上日出等14种手绘风格效果">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 演示页面头部 -->
+        <header class="demo-header">
+            <h1 class="demo-title">Rough.js</h1>
+            <a href="../../index.html" class="back-btn" aria-label="返回主页">
+                ← 返回主页
+            </a>
+        </header>
+
+        <!-- 效果切换控制面板 -->
+        <div class="controls" role="toolbar" aria-label="效果切换控制">
+            <button class="control-btn" data-effect="geometric-pattern" aria-pressed="false">
+                几何图案
+            </button>
+            <button class="control-btn" data-effect="line-art" aria-pressed="false">
+                线条艺术
+            </button>
+            <button class="control-btn" data-effect="grid-system" aria-pressed="false">
+                网格系统
+            </button>
+            <button class="control-btn" data-effect="organic-shapes" aria-pressed="false">
+                有机形状
+            </button>
+            <button class="control-btn" data-effect="decorative-borders" aria-pressed="false">
+                装饰边框
+            </button>
+            <button class="control-btn" data-effect="abstract-collage" aria-pressed="false">
+                抽象拼贴
+            </button>
+            <button class="control-btn" data-effect="sketchy-mandala" aria-pressed="false">
+                手绘曼陀罗
+            </button>
+            <button class="control-btn" data-effect="constellation-map" aria-pressed="false">
+                星座图谱
+            </button>
+            <button class="control-btn" data-effect="vintage-wallpaper" aria-pressed="false">
+                复古壁纸
+            </button>
+            <button class="control-btn" data-effect="circuit-board" aria-pressed="false">
+                电路板
+            </button>
+            <button class="control-btn" data-effect="forest-canopy" aria-pressed="false">
+                森林天窗
+            </button>
+            <button class="control-btn" data-effect="musical-notes" aria-pressed="false">
+                音乐符号
+            </button>
+            <button class="control-btn" data-effect="van-gogh-starry-night" aria-pressed="false">
+                梵高星空
+            </button>
+            <button class="control-btn" data-effect="ocean-sunrise" aria-pressed="false">
+                海上日出
+            </button>
+        </div>
+
+        <!-- Canvas 容器 -->
+        <div class="canvas-container" id="rough-container" aria-label="Rough.js 效果展示区域">
+            <canvas id="rough-canvas"></canvas>
+        </div>
+
+        <!-- 效果说明 -->
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--card-background); border-radius: var(--border-radius-lg); border: 1px solid var(--border-color);">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">操作说明</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.8;">
+                <li><strong>手绘风格：</strong> Rough.js 模拟真实的手工绘制效果，具有自然的不规则感</li>
+                <li><strong>动態效果：</strong> 所有手绘图形都具有轻微的动态效果，增加视觉吸引力</li>
+                <li><strong>键盘快捷键：</strong> 使用数字键 1-9 和 0-4 快速切换 14 种效果，左右箭头键切换上一个/下一个效果</li>
+                <li><strong>参数调节：</strong> 可以实时调节粗糙度和密度参数，体验不同的手绘效果</li>
+                <li><strong>多种填充：</strong> 支持锤齿状、交叉线、点状等多种手绘填充样式</li>
+                <li><strong>艺术风格：</strong> 适合创建具有艺术感和人文气息的网页背景</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 引入 Rough.js -->
+    <script src="https://cdn.jsdelivr.net/npm/roughjs@4.5.2/bundled/rough.js"></script>
+    <!-- 引入通用切换器 -->
+    <script src="../../assets/js/base-switcher.js"></script>
+    <!-- 引入演示脚本 -->
+    <script src="rough-demo.js"></script>
+</body>
+</html>

@@ -259,39 +259,39 @@ const effectConfigs = [
         config: {
             "particles": {
                 "number": {
-                    "value": 6,
+                    "value": 40,
                     "density": {
                         "enable": true,
                         "value_area": 800
                     }
                 },
                 "color": {
-                    "value": "#1b1e34"
+                    "value": ["#3b82f6", "#06b6d4", "#0891b2"]
                 },
                 "shape": {
-                    "type": "polygon",
+                    "type": "circle",
                     "stroke": {
-                        "width": 0,
-                        "color": "#000"
-                    },
-                    "polygon": {
-                        "nb_sides": 6
+                        "width": 1,
+                        "color": "#ffffff"
                     }
                 },
                 "opacity": {
-                    "value": 0.3,
+                    "value": 0.6,
                     "random": true,
                     "anim": {
-                        "enable": false
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
                     }
                 },
                 "size": {
-                    "value": 160,
-                    "random": false,
+                    "value": 20,
+                    "random": true,
                     "anim": {
                         "enable": true,
-                        "speed": 10,
-                        "size_min": 40,
+                        "speed": 2,
+                        "size_min": 5,
                         "sync": false
                     }
                 },
@@ -300,9 +300,9 @@ const effectConfigs = [
                 },
                 "move": {
                     "enable": true,
-                    "speed": 8,
-                    "direction": "none",
-                    "random": false,
+                    "speed": 3,
+                    "direction": "top",
+                    "random": true,
                     "straight": false,
                     "out_mode": "out",
                     "bounce": false,
@@ -315,12 +315,27 @@ const effectConfigs = [
                 "detect_on": "canvas",
                 "events": {
                     "onhover": {
-                        "enable": false
+                        "enable": true,
+                        "mode": "bubble"
                     },
                     "onclick": {
-                        "enable": false
+                        "enable": true,
+                        "mode": "repulse"
                     },
                     "resize": true
+                },
+                "modes": {
+                    "bubble": {
+                        "distance": 100,
+                        "size": 40,
+                        "duration": 2,
+                        "opacity": 0.8,
+                        "speed": 3
+                    },
+                    "repulse": {
+                        "distance": 150,
+                        "duration": 0.4
+                    }
                 }
             },
             "retina_detect": true
@@ -398,6 +413,152 @@ const effectConfigs = [
             },
             "retina_detect": true
         }
+    },
+    {
+        id: 'stars',
+        name: '星空背景',
+        description: '模拟夜空中的星星',
+        config: {
+            "particles": {
+                "number": {
+                    "value": 200,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": "#ffffff"
+                },
+                "shape": {
+                    "type": "circle"
+                },
+                "opacity": {
+                    "value": 0.8,
+                    "random": true,
+                    "anim": {
+                        "enable": true,
+                        "speed": 1,
+                        "opacity_min": 0.1,
+                        "sync": false
+                    }
+                },
+                "size": {
+                    "value": 2,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": false
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 0.3,
+                    "direction": "none",
+                    "random": true,
+                    "straight": false,
+                    "out_mode": "out",
+                    "bounce": false
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "bubble"
+                    },
+                    "onclick": {
+                        "enable": false
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "bubble": {
+                        "distance": 250,
+                        "size": 0,
+                        "duration": 2,
+                        "opacity": 0,
+                        "speed": 3
+                    }
+                }
+            },
+            "retina_detect": true
+        }
+    },
+    {
+        id: 'geometry',
+        name: '几何图形',
+        description: '多种几何形状的粒子',
+        config: {
+            "particles": {
+                "number": {
+                    "value": 50,
+                    "density": {
+                        "enable": true,
+                        "value_area": 800
+                    }
+                },
+                "color": {
+                    "value": ["#ff6b6b", "#4ecdc4", "#45b7d1", "#f9ca24", "#6c5ce7"]
+                },
+                "shape": {
+                    "type": ["circle", "triangle", "edge", "polygon"],
+                    "polygon": {
+                        "nb_sides": 6
+                    }
+                },
+                "opacity": {
+                    "value": 0.8,
+                    "random": false
+                },
+                "size": {
+                    "value": 8,
+                    "random": true
+                },
+                "line_linked": {
+                    "enable": true,
+                    "distance": 120,
+                    "color": "#ffffff",
+                    "opacity": 0.3,
+                    "width": 1
+                },
+                "move": {
+                    "enable": true,
+                    "speed": 1.5,
+                    "direction": "none",
+                    "random": false,
+                    "straight": false,
+                    "out_mode": "bounce",
+                    "bounce": false
+                }
+            },
+            "interactivity": {
+                "detect_on": "canvas",
+                "events": {
+                    "onhover": {
+                        "enable": true,
+                        "mode": "grab"
+                    },
+                    "onclick": {
+                        "enable": true,
+                        "mode": "push"
+                    },
+                    "resize": true
+                },
+                "modes": {
+                    "grab": {
+                        "distance": 200,
+                        "line_linked": {
+                            "opacity": 0.8
+                        }
+                    },
+                    "push": {
+                        "particles_nb": 3
+                    }
+                }
+            },
+            "retina_detect": true
+        }
     }
 ];
 
@@ -441,18 +602,23 @@ async function loadParticlesEffect(effect) {
         // 清空容器内容
         container.innerHTML = '';
 
-        // 添加短暂延迟以确保容器被正确清理
-        await new Promise(resolve => setTimeout(resolve, 100));
+        // 设置容器样式
+        container.style.position = 'relative';
+        container.style.width = '100%';
+        container.style.height = '100%';
+        
+        // 创建 div 元素（Particles.js 需要 div 而不是 canvas）
+        const particlesDiv = document.createElement('div');
+        particlesDiv.id = 'particles-js';
+        particlesDiv.style.width = '100%';
+        particlesDiv.style.height = '100%';
+        particlesDiv.style.position = 'absolute';
+        particlesDiv.style.top = '0';
+        particlesDiv.style.left = '0';
+        container.appendChild(particlesDiv);
 
-        // 创建 canvas 元素
-        const canvas = document.createElement('canvas');
-        canvas.id = 'particles-js';
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
-        canvas.style.position = 'absolute';
-        canvas.style.top = '0';
-        canvas.style.left = '0';
-        container.appendChild(canvas);
+        // 添加短暂延迟以确保 DOM 已准备好
+        await new Promise(resolve => setTimeout(resolve, 50));
 
         // 加载 particles.js 效果
         particlesJS('particles-js', effect.config);

@@ -4,20 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Matter.js 演示 - 背景特效库</title>
+    <meta name="description" content="Matter.js 2D物理引擎演示，包括重力下落、弹跳球、连锁反应、摆锤等物理效果">
     <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
+        <!-- 演示页面头部 -->
         <header class="demo-header">
             <h1 class="demo-title">Matter.js</h1>
-            <a href="../../index.html" class="back-btn">← 返回主页</a>
+            <a href="../../index.html" class="back-btn" aria-label="返回主页">
+                ← 返回主页
+            </a>
         </header>
-        <div class="canvas-container" style="display: flex; align-items: center; justify-content: center;">
-            <div style="text-align: center;">
-                <h2 style="color: var(--text-secondary);">Matter.js 演示正在开发中...</h2>
-                <p>请访问其他已完成的演示页面</p>
-            </div>
+
+        <!-- 效果切换控制面板 -->
+        <div class="controls" role="toolbar" aria-label="效果切换控制">
+            <button class="control-btn" data-effect="gravity" aria-pressed="false">
+                重力下落
+            </button>
+            <button class="control-btn" data-effect="bouncing" aria-pressed="false">
+                弹跳球
+            </button>
+            <button class="control-btn" data-effect="chain" aria-pressed="false">
+                连锁反应
+            </button>
+            <button class="control-btn" data-effect="pendulum" aria-pressed="false">
+                摆锤时钟
+            </button>
+            <button class="control-btn" data-effect="explosion" aria-pressed="false">
+                粒子爆炸
+            </button>
+            <button class="control-btn" data-effect="floating" aria-pressed="false">
+                漂浮气泡
+            </button>
+        </div>
+        
+        <!-- 交互控制按钮 -->
+        <div class="controls" style="margin-top: 1rem;" role="toolbar" aria-label="交互控制">
+            <button class="btn btn-secondary" id="add-objects-btn" style="margin-right: 1rem;">
+                💫 添加物体
+            </button>
+            <button class="btn btn-outline" id="reset-btn">
+                🔄 重置世界
+            </button>
+        </div>
+
+        <!-- Canvas 容器 -->
+        <div class="canvas-container" id="matter-container" aria-label="Matter.js 效果展示区域">
+            <!-- Matter.js 会在这里创建 canvas -->
+        </div>
+
+        <!-- 效果说明 -->
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--card-background); border-radius: var(--border-radius-lg); border: 1px solid var(--border-color);">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">操作说明</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.8;">
+                <li><strong>物理模拟：</strong> Matter.js 提供真实的 2D 物理模拟，包括重力、碰撞、摩擦等</li>
+                <li><strong>鼠标交互：</strong> 点击画布添加新物体，拖动鼠标与物体交互</li>
+                <li><strong>键盘快捷键：</strong> 使用数字键 1-6 快速切换效果，空格键重置世界</li>
+                <li><strong>实时渲染：</strong> 使用 Canvas 2D 实时渲染物理世界，60FPS 流畅动画</li>
+                <li><strong>响应式设计：</strong> 自动适应不同屏幕尺寸，保持最佳显示效果</li>
+                <li><strong>性能优化：</strong> 高效的物理计算和碰撞检测，适合作为背景效果</li>
+            </ul>
         </div>
     </div>
+
+    <!-- 引入 Matter.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+    <!-- 引入演示脚本 -->
+    <script src="matter-demo.js"></script>
 </body>
 </html>

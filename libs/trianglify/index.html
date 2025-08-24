@@ -4,18 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trianglify 演示 - 背景特效库</title>
+    <meta name="description" content="Trianglify 低多边形背景生成器演示，包括经典三角、彩色网格、渐变几何等多种效果">
     <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
+        <!-- 演示页面头部 -->
         <header class="demo-header">
             <h1 class="demo-title">Trianglify</h1>
-            <a href="../../index.html" class="back-btn">← 返回主页</a>
+            <a href="../../index.html" class="back-btn" aria-label="返回主页">
+                ← 返回主页
+            </a>
         </header>
-        <div class="canvas-container" style="display: flex; align-items: center; justify-content: center;">
-            <h2 style="color: var(--text-secondary);">Trianglify 演示正在开发中...</h2>
-            <p>请访问其他已完成的演示页面</p>
+
+        <!-- 效果切换控制面板 -->
+        <div class="controls" role="toolbar" aria-label="效果切换控制">
+            <button class="control-btn" data-effect="classic" aria-pressed="false">
+                经典三角
+            </button>
+            <button class="control-btn" data-effect="colorful" aria-pressed="false">
+                彩色网格
+            </button>
+            <button class="control-btn" data-effect="gradient" aria-pressed="false">
+                渐变几何
+            </button>
+            <button class="control-btn" data-effect="abstract" aria-pressed="false">
+                抽象艺术
+            </button>
+            <button class="control-btn" data-effect="tech" aria-pressed="false">
+                科技风格
+            </button>
+            <button class="control-btn" data-effect="sunset" aria-pressed="false">
+                日落黄昏
+            </button>
+            <button class="control-btn" data-effect="ocean" aria-pressed="false">
+                深海蓝调
+            </button>
+            <button class="control-btn" data-effect="forest" aria-pressed="false">
+                森林绿意
+            </button>
+            <button class="control-btn" data-effect="neon" aria-pressed="false">
+                霓虹夜景
+            </button>
+            <button class="control-btn" data-effect="cosmic" aria-pressed="false">
+                宇宙星云
+            </button>
+        </div>
+        
+        <!-- 随机生成按钮 -->
+        <div class="controls" style="margin-top: 1rem;" role="toolbar" aria-label="随机效果控制">
+            <button class="btn btn-secondary" id="random-btn" style="margin-right: 1rem;">
+                🎲 随机参数生成
+            </button>
+            <button class="btn btn-outline" id="regenerate-btn">
+                🔄 重新生成当前效果
+            </button>
+        </div>
+
+        <!-- Canvas 容器 -->
+        <div class="canvas-container" id="trianglify-container" aria-label="Trianglify 效果展示区域">
+            <!-- Trianglify 会在这里创建 canvas -->
+        </div>
+
+        <!-- 效果说明 -->
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--card-background); border-radius: var(--border-radius-lg); border: 1px solid var(--border-color);">
+            <h3 style="margin-bottom: 1rem; color: var(--text-primary);">操作说明</h3>
+            <ul style="color: var(--text-secondary); line-height: 1.8;">
+                <li><strong>几何背景：</strong> Trianglify 生成基于 Delaunay 三角剖分的低多边形背景</li>
+                <li><strong>随机参数：</strong> 点击随机按钮或按 R 键生成完全随机的参数配置</li>
+                <li><strong>重新生成：</strong> 点击重新生成按钮或按空格键重新生成当前效果</li>
+                <li><strong>键盘快捷键：</strong> 使用数字键 1-10 快速切换效果</li>
+                <li><strong>高质量输出：</strong> 支持任意分辨率，适合用作网站背景或设计素材</li>
+            </ul>
         </div>
     </div>
+
+    <!-- 引入 Trianglify CDN -->
+    <script src="https://unpkg.com/trianglify@^4/dist/trianglify.bundle.js"></script>
+    <!-- 引入演示脚本 -->
+    <script src="trianglify-demo.js"></script>
 </body>
 </html>
