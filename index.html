@@ -376,18 +376,33 @@
             ctx.fillStyle = '#0f172a';
             ctx.fillRect(0, 0, width, height);
             
+            const time = Date.now() * 0.002;
             const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#f59e0b'];
             
-            for (let i = 0; i < 20; i++) {
-                ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
-                ctx.globalAlpha = 0.6;
+            // 创建固定位置但会变色和大小的三角形
+            for (let i = 0; i < 15; i++) {
+                const row = Math.floor(i / 5);
+                const col = i % 5;
+                const x = (col + 0.5) * (width / 5);
+                const y = (row + 0.5) * (height / 3);
+                const size = 15 + Math.sin(time * 2 + i * 0.5) * 8;
+                const colorIndex = Math.floor(time * 0.5 + i * 0.3) % colors.length;
+                
+                ctx.fillStyle = colors[colorIndex];
+                ctx.globalAlpha = 0.6 + Math.sin(time * 1.5 + i) * 0.2;
+                
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(time * 0.5 + i * 0.2);
                 
                 ctx.beginPath();
-                ctx.moveTo(Math.random() * width, Math.random() * height);
-                ctx.lineTo(Math.random() * width, Math.random() * height);
-                ctx.lineTo(Math.random() * width, Math.random() * height);
+                ctx.moveTo(0, -size);
+                ctx.lineTo(-size * 0.866, size * 0.5);
+                ctx.lineTo(size * 0.866, size * 0.5);
                 ctx.closePath();
                 ctx.fill();
+                
+                ctx.restore();
             }
         }
 
@@ -395,49 +410,92 @@
             ctx.fillStyle = '#0f172a';
             ctx.fillRect(0, 0, width, height);
             
+            const time = Date.now() * 0.001;
+            
+            // 创建动态移动的粒子
+            const particles = [];
+            for (let i = 0; i < 8; i++) {
+                particles.push({
+                    x: width/2 + Math.cos(time * 0.5 + i * Math.PI * 0.25) * 60,
+                    y: height/2 + Math.sin(time * 0.3 + i * Math.PI * 0.25) * 40,
+                    size: 3 + Math.sin(time * 2 + i) * 1
+                });
+            }
+            
+            // 绘制连接线
             ctx.strokeStyle = '#6366f1';
-            ctx.globalAlpha = 0.4;
+            ctx.globalAlpha = 0.3;
+            particles.forEach((p1, i) => {
+                particles.forEach((p2, j) => {
+                    if (i < j) {
+                        const dist = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+                        if (dist < 100) {
+                            ctx.lineWidth = Math.max(1, 3 - dist / 50);
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                        }
+                    }
+                });
+            });
             
-            // 绘制网格
-            for (let x = 0; x <= width; x += 30) {
+            // 绘制粒子
+            ctx.fillStyle = '#6366f1';
+            ctx.globalAlpha = 0.8;
+            particles.forEach(p => {
                 ctx.beginPath();
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, height);
-                ctx.stroke();
-            }
-            
-            for (let y = 0; y <= height; y += 30) {
-                ctx.beginPath();
-                ctx.moveTo(0, y);
-                ctx.lineTo(width, y);
-                ctx.stroke();
-            }
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
         }
 
         function drawPhysicsPreview(ctx, width, height) {
             ctx.fillStyle = '#0f172a';
             ctx.fillRect(0, 0, width, height);
             
+            const time = Date.now() * 0.003;
             const shapes = ['#6366f1', '#8b5cf6', '#ec4899'];
             
-            // 绘制一些几何形状模拟物理效果
-            for (let i = 0; i < 8; i++) {
+            // 模拟物理引擎的下落和弹跳效果
+            for (let i = 0; i < 6; i++) {
                 ctx.fillStyle = shapes[i % shapes.length];
-                ctx.globalAlpha = 0.7;
+                ctx.globalAlpha = 0.8;
                 
-                const x = Math.random() * width;
-                const y = Math.random() * height;
-                const size = 10 + Math.random() * 20;
+                // 创建上下弹跳的效果
+                const baseX = (i % 3 + 1) * (width / 4);
+                const baseY = height / 2;
+                const bounceHeight = Math.abs(Math.sin(time * 2 + i * 0.5)) * 60;
+                const x = baseX + Math.sin(time * 0.5 + i) * 20;
+                const y = baseY - bounceHeight;
+                const size = 15 + Math.sin(time * 3 + i) * 5;
+                
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(time + i * 0.3);
                 
                 if (i % 2 === 0) {
                     // 圆形
                     ctx.beginPath();
-                    ctx.arc(x, y, size / 2, 0, Math.PI * 2);
+                    ctx.arc(0, 0, size, 0, Math.PI * 2);
                     ctx.fill();
                 } else {
                     // 矩形
-                    ctx.fillRect(x - size / 2, y - size / 2, size, size);
+                    ctx.fillRect(-size, -size, size * 2, size * 2);
                 }
+                
+                ctx.restore();
+                
+                // 绘制影子效果
+                ctx.fillStyle = shapes[i % shapes.length];
+                ctx.globalAlpha = 0.2;
+                const shadowSize = size * (1 + bounceHeight / 60);
+                ctx.save();
+                ctx.scale(1, 0.3);
+                ctx.beginPath();
+                ctx.arc(baseX, (height / 2 + 40) / 0.3, shadowSize, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
             }
         }
 
@@ -445,33 +503,65 @@
             ctx.fillStyle = '#0f172a';
             ctx.fillRect(0, 0, width, height);
             
-            // 简单的 3D 线框效果
+            const time = Date.now() * 0.002;
             ctx.strokeStyle = '#6366f1';
             ctx.globalAlpha = 0.8;
             
             const centerX = width / 2;
             const centerY = height / 2;
-            const size = 60;
+            const size = 40;
             
-            // 绘制立方体线框
-            const points = [
+            // 创建旋转的 3D 立方体
+            const rotX = time;
+            const rotY = time * 0.7;
+            
+            // 基础立方体顶点
+            const basePoints = [
                 [-size, -size, -size], [size, -size, -size], [size, size, -size], [-size, size, -size],
                 [-size, -size, size], [size, -size, size], [size, size, size], [-size, size, size]
             ];
+            
+            // 旋转变换
+            const rotatedPoints = basePoints.map(([x, y, z]) => {
+                // Y轴旋转
+                const x1 = x * Math.cos(rotY) - z * Math.sin(rotY);
+                const z1 = x * Math.sin(rotY) + z * Math.cos(rotY);
+                
+                // X轴旋转
+                const y1 = y * Math.cos(rotX) - z1 * Math.sin(rotX);
+                const z2 = y * Math.sin(rotX) + z1 * Math.cos(rotX);
+                
+                return [x1, y1, z2];
+            });
+            
+            // 投影到 2D
+            const projectedPoints = rotatedPoints.map(([x, y, z]) => [
+                centerX + x,
+                centerY + y
+            ]);
             
             const edges = [
                 [0,1], [1,2], [2,3], [3,0], [4,5], [5,6], [6,7], [7,4],
                 [0,4], [1,5], [2,6], [3,7]
             ];
             
+            // 绘制边线
             edges.forEach(edge => {
-                const start = points[edge[0]];
-                const end = points[edge[1]];
+                const start = projectedPoints[edge[0]];
+                const end = projectedPoints[edge[1]];
                 
                 ctx.beginPath();
-                ctx.moveTo(centerX + start[0], centerY + start[1]);
-                ctx.lineTo(centerX + end[0], centerY + end[1]);
+                ctx.moveTo(start[0], start[1]);
+                ctx.lineTo(end[0], end[1]);
                 ctx.stroke();
+            });
+            
+            // 绘制顶点
+            ctx.fillStyle = '#6366f1';
+            projectedPoints.forEach(([x, y]) => {
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fill();
             });
         }
 
@@ -479,88 +569,148 @@
             ctx.fillStyle = '#0f172a';
             ctx.fillRect(0, 0, width, height);
             
-            // 生成艺术效果
+            const time = Date.now() * 0.001;
             const centerX = width / 2;
             const centerY = height / 2;
             
-            for (let i = 0; i < 50; i++) {
-                const angle = (i / 50) * Math.PI * 2;
-                const radius = 20 + i * 2;
+            // 创建动态的螺旋和波浪效果
+            for (let i = 0; i < 80; i++) {
+                const angle = (i / 80) * Math.PI * 4 + time;
+                const radius = 20 + i * 1.5 + Math.sin(time * 2 + i * 0.1) * 10;
                 const x = centerX + Math.cos(angle) * radius;
                 const y = centerY + Math.sin(angle) * radius;
+                const size = 2 + Math.sin(time * 3 + i * 0.05) * 1;
                 
-                ctx.fillStyle = `hsl(${250 + i * 2}, 70%, 60%)`;
-                ctx.globalAlpha = 0.6;
+                ctx.fillStyle = `hsl(${250 + i * 1.5 + time * 20}, 70%, ${60 + Math.sin(time + i * 0.1) * 20}%)`;
+                ctx.globalAlpha = 0.7 + Math.sin(time * 1.5 + i * 0.2) * 0.2;
                 ctx.beginPath();
-                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.arc(x, y, size, 0, Math.PI * 2);
                 ctx.fill();
             }
-        }
-
-        function drawVantaPreview(ctx, width, height) {
-            // 创建模拟 Vanta 波浪效果的预览
-            ctx.fillStyle = '#0f172a';
-            ctx.fillRect(0, 0, width, height);
             
-            ctx.strokeStyle = '#6366f1';
-            ctx.fillStyle = '#6366f1';
-            ctx.globalAlpha = 0.6;
-            
-            // 绘制波浪形状
-            const waveHeight = 20;
-            const waveLength = 80;
-            
-            for (let y = 0; y < height; y += 40) {
+            // 添加中心的辐射效果
+            for (let i = 0; i < 12; i++) {
+                const angle = (i / 12) * Math.PI * 2 + time * 0.5;
+                const startRadius = 10;
+                const endRadius = 100;
+                
+                const gradient = ctx.createRadialGradient(centerX, centerY, startRadius, centerX, centerY, endRadius);
+                gradient.addColorStop(0, `hsla(${270 + i * 5}, 70%, 60%, 0.8)`);
+                gradient.addColorStop(1, `hsla(${270 + i * 5}, 70%, 60%, 0)`);
+                
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 2;
+                ctx.globalAlpha = 0.3;
+                
                 ctx.beginPath();
-                for (let x = 0; x <= width; x += 5) {
-                    const waveY = y + Math.sin((x / waveLength) * Math.PI * 2) * waveHeight;
-                    if (x === 0) {
-                        ctx.moveTo(x, waveY);
-                    } else {
-                        ctx.lineTo(x, waveY);
-                    }
-                }
+                ctx.moveTo(centerX, centerY);
+                ctx.lineTo(
+                    centerX + Math.cos(angle) * endRadius,
+                    centerY + Math.sin(angle) * endRadius
+                );
                 ctx.stroke();
             }
         }
 
-        function drawParticlesJSPreview(ctx, width, height) {
-            // 创建模拟经典 Particles.js 效果的预览
+        function drawVantaPreview(ctx, width, height) {
+            // 创建动态 Vanta 波浪效果的预览
             ctx.fillStyle = '#0f172a';
             ctx.fillRect(0, 0, width, height);
             
+            const time = Date.now() * 0.001;
+            ctx.strokeStyle = '#6366f1';
+            ctx.globalAlpha = 0.6;
+            
+            // 绘制动态波浪形状
+            const waveHeight = 15;
+            const waveLength = 60;
+            
+            // 多层波浪效果
+            for (let layer = 0; layer < 4; layer++) {
+                ctx.strokeStyle = `hsl(${220 + layer * 10}, 70%, ${50 + layer * 10}%)`;
+                ctx.lineWidth = 2 - layer * 0.3;
+                ctx.globalAlpha = 0.8 - layer * 0.15;
+                
+                for (let y = layer * 30; y < height; y += 120) {
+                    ctx.beginPath();
+                    for (let x = 0; x <= width; x += 3) {
+                        const waveY = y + Math.sin((x / waveLength + time * (1 + layer * 0.5)) * Math.PI * 2) * waveHeight * (1 - layer * 0.2);
+                        if (x === 0) {
+                            ctx.moveTo(x, waveY);
+                        } else {
+                            ctx.lineTo(x, waveY);
+                        }
+                    }
+                    ctx.stroke();
+                }
+            }
+            
+            // 添加浮动的光点
+            for (let i = 0; i < 8; i++) {
+                const x = (i * width / 8) + Math.sin(time * 0.5 + i) * 30;
+                const y = height / 2 + Math.cos(time * 0.3 + i) * 40;
+                const size = 2 + Math.sin(time * 2 + i) * 1;
+                
+                ctx.fillStyle = '#6366f1';
+                ctx.globalAlpha = 0.8;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function drawParticlesJSPreview(ctx, width, height) {
+            // 创建动态 Particles.js 效果的预览
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            const time = Date.now() * 0.0005;
             ctx.strokeStyle = '#6366f1';
             ctx.fillStyle = '#6366f1';
             
+            // 创建动态粒子
             const particles = [];
-            for (let i = 0; i < 12; i++) {
+            for (let i = 0; i < 15; i++) {
                 particles.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    size: 2 + Math.random() * 2
+                    x: width/2 + Math.cos(time * (0.5 + i * 0.1) + i) * (30 + i * 8),
+                    y: height/2 + Math.sin(time * (0.3 + i * 0.05) + i * 0.5) * (20 + i * 6),
+                    size: 2 + Math.sin(time * 3 + i) * 1
                 });
             }
             
-            // 绘制连线（更密集）
-            ctx.globalAlpha = 0.4;
-            particles.forEach(p1 => {
-                particles.forEach(p2 => {
-                    const dist = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
-                    if (dist < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
+            // 绘制动态连线
+            ctx.globalAlpha = 0.3;
+            particles.forEach((p1, i) => {
+                particles.forEach((p2, j) => {
+                    if (i < j) {
+                        const dist = Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
+                        if (dist < 80) {
+                            ctx.lineWidth = Math.max(0.5, 2 - dist / 60);
+                            ctx.globalAlpha = Math.max(0.1, 0.5 - dist / 160);
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                        }
                     }
                 });
             });
             
-            // 绘制粒子
+            // 绘制动态粒子
             ctx.globalAlpha = 0.9;
-            particles.forEach(p => {
+            particles.forEach((p, i) => {
+                const pulseSize = p.size + Math.sin(time * 4 + i * 0.5) * 0.5;
+                ctx.fillStyle = `hsl(${220 + Math.sin(time + i) * 20}, 70%, 60%)`;
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.arc(p.x, p.y, pulseSize, 0, Math.PI * 2);
                 ctx.fill();
+                
+                // 添加微弱的光晕
+                ctx.globalAlpha = 0.3;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, pulseSize * 2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 0.9;
             });
         }
 
@@ -585,6 +735,55 @@
             if (roughCanvas) {
                 const ctx = roughCanvas.getContext('2d');
                 drawRoughPreview(ctx, roughCanvas.width, roughCanvas.height);
+            }
+            
+            // Trianglify 动画
+            const trianglifyCanvas = document.getElementById('trianglify-preview');
+            if (trianglifyCanvas) {
+                const ctx = trianglifyCanvas.getContext('2d');
+                drawTrianglesPreview(ctx, trianglifyCanvas.width, trianglifyCanvas.height);
+            }
+            
+            // Canvas Nest 动画
+            const canvasNestCanvas = document.getElementById('canvas-nest-preview');
+            if (canvasNestCanvas) {
+                const ctx = canvasNestCanvas.getContext('2d');
+                drawNetPreview(ctx, canvasNestCanvas.width, canvasNestCanvas.height);
+            }
+            
+            // Matter.js 动画
+            const matterCanvas = document.getElementById('matter-preview');
+            if (matterCanvas) {
+                const ctx = matterCanvas.getContext('2d');
+                drawPhysicsPreview(ctx, matterCanvas.width, matterCanvas.height);
+            }
+            
+            // Three.js 动画
+            const threeCanvas = document.getElementById('three-preview');
+            if (threeCanvas) {
+                const ctx = threeCanvas.getContext('2d');
+                draw3DPreview(ctx, threeCanvas.width, threeCanvas.height);
+            }
+            
+            // P5.js 动画
+            const p5Canvas = document.getElementById('p5-preview');
+            if (p5Canvas) {
+                const ctx = p5Canvas.getContext('2d');
+                drawGenerativePreview(ctx, p5Canvas.width, p5Canvas.height);
+            }
+            
+            // Vanta.js 动画
+            const vantaCanvas = document.getElementById('vanta-preview');
+            if (vantaCanvas) {
+                const ctx = vantaCanvas.getContext('2d');
+                drawVantaPreview(ctx, vantaCanvas.width, vantaCanvas.height);
+            }
+            
+            // Particles.js 动画
+            const particlesCanvas = document.getElementById('particles-preview');
+            if (particlesCanvas) {
+                const ctx = particlesCanvas.getContext('2d');
+                drawParticlesJSPreview(ctx, particlesCanvas.width, particlesCanvas.height);
             }
             
             requestAnimationFrame(animatePreviews);
