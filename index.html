@@ -176,6 +176,20 @@
                     进入演示 →
                 </a>
             </article>
+
+            <!-- Vue Bits 卡片 -->
+            <article class="card">
+                <div class="card-preview" aria-label="Vue Bits 效果预览">
+                    <canvas id="vue-bits-preview"></canvas>
+                </div>
+                <h3 class="card-title">Vue Bits <span class="badge">外部链接</span></h3>
+                <p class="card-description">
+                    Vue 3 动画背景特效库，提供 28+ 种精美的 WebGL 背景特效，包括 Prism、Aurora、Beams、Plasma 等现代化特效。
+                </p>
+                <a href="https://vue-bits.dev/backgrounds/aurora" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-full" aria-label="访问 Vue Bits 官方演示">
+                    访问官方演示 ↗
+                </a>
+            </article>
         </main>
 
         <!-- 页脚 -->
@@ -234,6 +248,9 @@
                         break;
                     case 10: // GSAP
                         drawGSAPPreview(ctx, canvas.width, canvas.height);
+                        break;
+                    case 11: // Vue Bits
+                        drawVueBitsPreview(ctx, canvas.width, canvas.height);
                         break;
                 }
             });
@@ -841,6 +858,101 @@
             ctx.stroke();
         }
 
+        function drawVueBitsPreview(ctx, width, height) {
+            // 创建 Vue Bits 棱镜和极光效果的预览
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(0, 0, width, height);
+            
+            const time = Date.now() * 0.002;
+            const centerX = width / 2;
+            const centerY = height / 2;
+            
+            // 绘制类似 Prism 的彩色三角形效果
+            ctx.globalAlpha = 0.8;
+            for (let i = 0; i < 3; i++) {
+                const angle = time + i * (Math.PI * 2 / 3);
+                const size = 25 + Math.sin(time * 1.5 + i) * 8;
+                const x = centerX + Math.cos(angle) * 40;
+                const y = centerY + Math.sin(angle) * 30;
+                
+                // 创建彩虹渐变
+                const gradient = ctx.createRadialGradient(x, y, 0, x, y, size);
+                const hue = (time * 30 + i * 120) % 360;
+                gradient.addColorStop(0, `hsla(${hue}, 80%, 70%, 0.9)`);
+                gradient.addColorStop(0.7, `hsla(${hue + 60}, 70%, 60%, 0.6)`);
+                gradient.addColorStop(1, `hsla(${hue + 120}, 60%, 50%, 0.1)`);
+                
+                ctx.fillStyle = gradient;
+                
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(time * 0.5 + i * 0.8);
+                
+                // 绘制三角形
+                ctx.beginPath();
+                ctx.moveTo(0, -size);
+                ctx.lineTo(-size * 0.866, size * 0.5);
+                ctx.lineTo(size * 0.866, size * 0.5);
+                ctx.closePath();
+                ctx.fill();
+                
+                ctx.restore();
+            }
+            
+            // 绘制类似 Aurora 的波浪效果
+            ctx.globalAlpha = 0.4;
+            const waveColors = ['#7cff67', '#6366f1', '#ec4899'];
+            
+            for (let layer = 0; layer < 3; layer++) {
+                ctx.strokeStyle = waveColors[layer];
+                ctx.lineWidth = 2 - layer * 0.3;
+                
+                ctx.beginPath();
+                for (let x = 0; x <= width; x += 2) {
+                    const y = centerY + 30 + Math.sin((x * 0.02) + (time * (1 + layer * 0.5))) * (15 - layer * 3);
+                    if (x === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                }
+                ctx.stroke();
+            }
+            
+            // 绘制发光粒子
+            ctx.globalAlpha = 0.9;
+            for (let i = 0; i < 12; i++) {
+                const angle = time * 0.5 + i * (Math.PI * 2 / 12);
+                const radius = 30 + Math.sin(time * 2 + i * 0.3) * 15;
+                const x = centerX + Math.cos(angle) * radius;
+                const y = centerY + Math.sin(angle) * radius;
+                const size = 1.5 + Math.sin(time * 3 + i) * 0.8;
+                
+                const hue = (time * 40 + i * 30) % 360;
+                ctx.fillStyle = `hsla(${hue}, 70%, 65%, 0.8)`;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // 添加光晕效果
+                ctx.globalAlpha = 0.3;
+                ctx.beginPath();
+                ctx.arc(x, y, size * 3, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 0.9;
+            }
+            
+            // 绘制 "VUE" 文字
+            ctx.font = 'bold 16px Inter';
+            ctx.textAlign = 'center';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.globalAlpha = 0.7;
+            ctx.fillText('VUE', centerX, centerY - 50);
+            
+            // 绘制 "BITS" 文字
+            ctx.fillText('BITS', centerX, centerY + 60);
+        }
+
         // 为动态预览添加动画循环
         function animatePreviews() {
             // Anime.js 动画
@@ -918,6 +1030,13 @@
             if (gsapCanvas) {
                 const ctx = gsapCanvas.getContext('2d');
                 drawGSAPPreview(ctx, gsapCanvas.width, gsapCanvas.height);
+            }
+
+            // Vue Bits 动画
+            const vueBitsCanvas = document.getElementById('vue-bits-preview');
+            if (vueBitsCanvas) {
+                const ctx = vueBitsCanvas.getContext('2d');
+                drawVueBitsPreview(ctx, vueBitsCanvas.width, vueBitsCanvas.height);
             }
             
             requestAnimationFrame(animatePreviews);

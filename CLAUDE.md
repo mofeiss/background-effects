@@ -4,7 +4,7 @@ This file provides guidance to WARP (warp.dev) when working with code in this re
 
 ## 项目概述
 
-这是一个综合性的 Web 背景特效库演示项目，展示了11种流行的 JavaScript 背景特效库（Particles.js、Three.js、Matter.js、Vanta.js、GSAP、Anime.js 等）的使用方法和效果。项目采用纯前端架构，无需构建工具，通过 CDN 引入依赖，主要面向学习和演示用途。
+这是一个综合性的 Web 背景特效库演示项目，展示了12种流行的 JavaScript 背景特效库（Particles.js、Three.js、Matter.js、Vanta.js、GSAP、Anime.js 等）的使用方法和效果，以及Vue Bits外部链接演示。项目采用纯前端架构，无需构建工具，通过 CDN 引入依赖，主要面向学习和演示用途。
 
 ## 核心架构
 
@@ -124,10 +124,11 @@ const effectConfigs = [
 ## 主页预览系统
 
 `index.html` 包含完全动态化的 Canvas 预览系统：
-- **预览函数**: 每个特效库都有对应的动画预览绘制函数（如 `drawConfettiPreview`）
-- **动画循环**: 所有11个特效预览都使用 `requestAnimationFrame` 实现连续动画效果
+- **预览函数**: 每个特效库都有对应的动画预览绘制函数（如 `drawConfettiPreview`、`drawVueBitsPreview`）
+- **动画循环**: 所有12个特效预览都使用 `requestAnimationFrame` 实现连续动画效果
 - **响应式**: 监听 `resize` 事件重新绘制预览
 - **性能优化**: 动画预览专为主页展示优化，确保流畅性能
+- **外部链接**: Vue Bits 特效通过外部链接直接访问官方演示页面
 
 ## 添加新特效库
 
@@ -175,9 +176,15 @@ const effectConfigs = [
 
 ## 项目近期更新
 
+### v2.1 (2025-08-28)
+- 🌟 新增 Vue Bits 外部链接演示，提供28+种精美WebGL背景特效的直接访问
+- ✨ 添加 Vue Bits 专属预览动画，结合 Prism 和 Aurora 特效的视觉效果
+- 🏷️ 新增徽章样式系统，标识外部链接和特殊功能
+- 📊 主页特效卡片扩展至12个，包含完整的动画预览
+
 ### v2.0 (2025-08-25)
 - 🎉 新增 GSAP 专业动画库演示，支持时间线动画和弹簧效果
-- ✨ 主页预览系统全面动态化：所有11个特效预览实现连续动画效果
+- ✨ 主页预览系统全面动态化：所有特效预览实现连续动画效果
 - 🔧 优化 Vanta.js 演示，新增自定义效果文件 (custom-effects.js)
 - 📝 完善 Anime.js 和 Canvas Confetti 效果配置
 - 🚀 增强 Three.js 3D 特效展示效果
